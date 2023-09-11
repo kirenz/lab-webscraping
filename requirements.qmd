@@ -11,3 +11,15 @@ Visit the "[Programming Toolkit-webpage](https://kirenz.github.io/lab-toolkit/)"
 - **SQL**: MySQL, MySQL Workbench and a database called `db_data`
 - **Python**: Anaconda, Anaconda Environment `lab` and Visual Studio Code
 - **Environment**: A folder on your machine called *competitive* and an environment file with your MySQL password
+
+
+
+## Webscraping tools
+
+
+💾 Download the [Google Chrome Web-Browser](https://www.google.com/intl/de_de/chrome/)
+
+
+💾 Install the [SelectorGadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb) extension in Google Chrome
+
+
