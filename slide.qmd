@@ -14,6 +14,25 @@ To download Jupyter Notebooks: Go to the Colab menu and choose "File" > "Downloa
 :::
 
 
+## Webscraping Basics
+
+
+[⏯ Webscraping basics codelab](https://kirenz.github.io/codelabs/codelabs/webscraping/#0)
+
+
+## Scraping quotes
+
+Accept the invitation to application exercise Nr. 1 in Moodle: [💻 scraping-quotes](https://e-learning.hdm-stuttgart.de/moodle/mod/page/view.php?id=262127)
+
+
+## Twitter API
+
+Open this [Twitter setup tutorial](https://github.com/kirenz/twitter-tutorial) on GitHub.
+
+💻 Application exercise: [Twitter API](../ae/ae-2-twitter-api.md)
+
+
+
 ## Txt
 
 In this tutorial, you'll learn:
@@ -22,3 +41,4 @@ In this tutorial, you'll learn:
 - [🖥️ Presentation]()
 - [💻 Jupyter Notebook]()
 :::
+
