@@ -4,35 +4,63 @@
     "href": "requirements.html",
     "title": "Requirements",
     "section": "",
-    "text": "To start this lab, you’ll need the following environments:\n\n\n\n\n\n\nImportant\n\n\n\nVisit the “Programming Toolkit-webpage” to learn how to meet all requirements.\n\n\n\nSQL: MySQL, MySQL Workbench and a database called db_data\nPython: Anaconda, Anaconda Environment lab and Visual Studio Code\nEnvironment: A folder on your machine called competitive and an environment file with your MySQL password"
+    "text": "To start this lab, you’ll need the following environments:"
   },
   {
-    "objectID": "code/notebook.html",
-    "href": "code/notebook.html",
-    "title": "Notebook",
+    "objectID": "requirements.html#webscraping-tools",
+    "href": "requirements.html#webscraping-tools",
+    "title": "Requirements",
+    "section": "Webscraping tools",
+    "text": "Webscraping tools\n💾 Download the Google Chrome Web-Browser\n💾 Install the SelectorGadget extension in Google Chrome"
+  },
+  {
+    "objectID": "code/1_scraping_quotes.html",
+    "href": "code/1_scraping_quotes.html",
+    "title": "Web Scraping in Python with Beautiful Soup, Requests and pandas",
     "section": "",
-    "text": "Load Python libaries and API keys.\n\nimport os\nimport openai\nimport pandas as pd\nimport altair as alt\nfrom dotenv import load_dotenv, find_dotenv\n\n\n_ = load_dotenv(find_dotenv()) # read local .env file\nopenai.api_key  = os.environ['OPENAI_API_KEY']"
+    "text": "Wichtige Hinweise\nNAME = \"\"\nimport IPython\nassert IPython.version_info[0] &gt;= 3, \"Your version of IPython is too old, please update it.\"\nThis tutorial is mainly based on the tutorial Build a Web Scraper with Python in 5 Minutes by Natassha Selvaraj as well as the Beautiful Soup documentation.\nIn this tutorial, you will learn how to:"
   },
   {
-    "objectID": "code/notebook.html#setup",
-    "href": "code/notebook.html#setup",
-    "title": "Notebook",
-    "section": "",
-    "text": "Load Python libaries and API keys.\n\nimport os\nimport openai\nimport pandas as pd\nimport altair as alt\nfrom dotenv import load_dotenv, find_dotenv\n\n\n_ = load_dotenv(find_dotenv()) # read local .env file\nopenai.api_key  = os.environ['OPENAI_API_KEY']"
+    "objectID": "code/1_scraping_quotes.html#prerequisites",
+    "href": "code/1_scraping_quotes.html#prerequisites",
+    "title": "Web Scraping in Python with Beautiful Soup, Requests and pandas",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nTo start this tutorial, you need:\n\nSome basic understanding of HTML and CSS and CSS selectors.\nGoogle’s web browser Chrome and the Chrome extension SelectorGadget\nTo know how to use Chrome DevTools\n\n\nTo learn more about HTML, CSS, Chrome DevTools and the Selector Gadget, follow the instructions in this web scraping basics tutorial."
   },
   {
-    "objectID": "code/notebook.html#data",
-    "href": "code/notebook.html#data",
-    "title": "Notebook",
-    "section": "Data",
-    "text": "Data"
+    "objectID": "code/1_scraping_quotes.html#setup",
+    "href": "code/1_scraping_quotes.html#setup",
+    "title": "Web Scraping in Python with Beautiful Soup, Requests and pandas",
+    "section": "Setup",
+    "text": "Setup\n\nimport pandas as pd\n\nimport requests\nfrom bs4 import BeautifulSoup"
+  },
+  {
+    "objectID": "code/1_scraping_quotes.html#scrape-website-with-requests",
+    "href": "code/1_scraping_quotes.html#scrape-website-with-requests",
+    "title": "Web Scraping in Python with Beautiful Soup, Requests and pandas",
+    "section": "Scrape website with Requests",
+    "text": "Scrape website with Requests\n\nFirst, we use requests to scrape the website (using a GET request).\nrequests.get() fetches all the content from a particular website and returns a response object (we call it html):\n\n\nurl = 'http://quotes.toscrape.com/'\n\nHint:\n___ = .get()\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\nCheck if the response was succesful (with .status_code):\n\n\nhtml.status_code\n\n\nResponse 200 means that the request has succeeded.\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert html.status_code == 200\nassert html.url == \"http://quotes.toscrape.com/\""
+  },
+  {
+    "objectID": "code/1_scraping_quotes.html#investigate-html-with-beautiful-soup",
+    "href": "code/1_scraping_quotes.html#investigate-html-with-beautiful-soup",
+    "title": "Web Scraping in Python with Beautiful Soup, Requests and pandas",
+    "section": "Investigate HTML with Beautiful Soup",
+    "text": "Investigate HTML with Beautiful Soup\n\nWe can use the response object to access certain features such as content, text, headers, etc.\nIn our example, we only want to obtain text from the object.\nTherefore, we use html.text which only returns the text of the response.\nRunning html.text through BeautifulSoup using the html.parser gives us a Beautiful Soup object:\n\n\nsoup = BeautifulSoup(html.text, 'html.parser')\n\n\nsoup represents the document as a nested data structure:\n\n\nprint(soup.prettify())\n\nNext, we take a look at some ways to navigate that data structure.\n\nGet all text\n\nA common task is extracting all the text from a page (since the output is quite large, we don’t actually print the output of the following function):\n\n\n# print(soup.get_text())\n\n\n\nInvestigate title\n\nPrint the complete HTML title (.title):\n\n\nsoup.title\n\n\nShow name of the title tag (.title.name):\n\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert soup.title.name == \"title\"\n\n\nOnly print the text of the title (title.string):\n\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert soup.title.string == \"Quotes to Scrape\"\n\n\nShow the name of the parent tag of title:\n\n\nsoup.title.parent.name\n\n\n\nInvestigate hyperlinks\n\nShow the first hyperlink in the document:\n\n\nsoup.a\n\n\n\nInvestigate a text element\n\nsoup.span.text\n\n\n\nExtract specific elements with find and find_all\n\nSince there are many div tags in HTML, we can’t use the previous approaches to extract relevant information.\nInstead, we need to use the find and find_all methods which you can use to extract specific HTML tags from the web page.\nThis methods can be used to retrieve all the elements on the page that match our specifications.\nLet’s say our goal is to obtain all quotes, authors and tags from the website “Quotes to Scrape”.\nWe want to store all information in a pandas dataframe (every row should contain a quote as well as the corresponding author and tags).\nFirst, we use SelectorGadget in Google Chrome to inspect the website.\n\n\nReview the web scraping basics tutorial to learn how inspect websites.\n\n\nExtract all quotes\nTask: Extract all quotes\n\nFirst, we use the div class “quote” to retrieve all relevant information regarding the quotes:\n\n\nquotes_all = soup.find_all('div', {'class': 'quote'})\n\n\nquotes_all\n\n\nNext, we can iterate through our new quotes_all object and extract only the text of the quotes:\n\nwe want to store all text quotes in a new array called quotes_text (you need top provide an empty list)\nTo extract the quotes, note that the text of the quotes are available in the tag span as “class:text” (see output above))\nfinally, we can use the method .text to make sure we only extract text\n\n\nSome hints:\n# create empty array\nquotes_text = []\n\n# use for loop to write quotes in quotes_text with append\nfor i in ___:\n   ___.append((___.find('___', {'___':'___'})).___)\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert quotes_text[0] == \"“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”\"\n\nTake a look at quotes_text\n\n # quotes_text\n\n\nNext, we want to store the data in a pandas dataframe (to make later data preprocessing steps easier)\n\n\ndf_quotes = pd.DataFrame({\"quote\" : quotes_text})\ndf_quotes\n\n\n\nExtract all authors\nTask: Extract all authors\n\nsoup\n\n\nIn this example, we don’t want to create a new object (like quotes_all) as an intermediate step.\nInstead, we use a different approach:\n\ncreate an emtpty array mit the name authors_text\nuse the soup object and implement the find_all() function in a for loop to extract the authors (take a look at the code where we created quotes_all):\n\n\nHint:\n___ = []\n\nfor i in ___.___(\"___\",{\"___\": \"___\"}):\n    ___.___((___.___(\"___\", {\"___\": \"___\"})).___)\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert authors_text[0] == \"Albert Einstein\"\n\nWe create a new dataframe:\n\ncall the dataframe: df_authors\nname the column: author\n\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert df_authors.iloc[0,0] == \"Albert Einstein\"\n\nWe can use a left join to combine the two dataframes:\n\ndf1 = df_quotes.join(df_authors)\ndf1\n\n\n\nExtract all tags\nTask: Extract all tags\n\nWe use the same process as in the extraction of the authors to obtain the tags\nInformation about the tags is available in the class “tags”.\nThis time, we need to extract the “content” from “meta” and return it as array (since there are multiple entries per quote)\nCall the array tags_text\n\nHint:\n\n___ = []\n\nfor i in ___.___(\"___\",{\"___\": \"___\"}):\n    ___.___((___.___(\"___\"))['___'])\n    \n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert tags_text[0] == \"change,deep-thoughts,thinking,world\"\n\nWe create a new dataframe:\n\ncall the dataframe: df_tags\nname the column: tags\n\n\ndf_tags = pd.DataFrame({\"tags\" : tags_text})"
+  },
+  {
+    "objectID": "code/1_scraping_quotes.html#create-dataframe-for-all-quotes-authors-and-tags",
+    "href": "code/1_scraping_quotes.html#create-dataframe-for-all-quotes-authors-and-tags",
+    "title": "Web Scraping in Python with Beautiful Soup, Requests and pandas",
+    "section": "Create dataframe for all quotes, authors and tags",
+    "text": "Create dataframe for all quotes, authors and tags\nFinally, we can combine all information in one single dataframe\n\ndf2 = df1.join(df_tags)\ndf2\n\n\nNext, we want to store ALL quotes with the corresponding authors and tags information in a pandas dataframe.\nNote that the site has a total of ten pages and we want to collect the data from all of them (we only extracted content from the first page so far).\nThe website’s URL address is structured as follows:\n\npage 1: https://quotes.toscrape.com/page/1/\npage 2: https://quotes.toscrape.com/page/2/\n…\npage 10: https://quotes.toscrape.com/page/10/\n\nThis means we can use the part “https://quotes.toscrape.com/page/” as root and iterate over the pages 1 to 10.\n\nWe will proceed as follows:\n\nStore the root url without the page number as a variable called root.\nPrepare three empty arrays: quotes, authors and tags.\nCreate a loop that ranges from 1–10 to iterate through every page on the site. Take a close look at this definition of the range() function\nAppend the scraped data to our arrays.\nCreate a dataframe\n\n\nNote that we use almost the same code as before\n\nHint:\n# store root url without page number... needs to end with /\nroot = 'http://___/'\n\n# create empty arrays\n\n\n\n# loop over page 1 to 10 with range() - noteice the information above\nfor pages in range(__,__): \n        \n        html = requests.get(___ + str(pages))\n        \n        soup = BeautifulSoup(___.text)    \n\n        for i in soup.findAll(\"div\",{\"class\":\"quote\"}):\n                 quotes.append((i.find(\"span\",{\"class\":\"text\"})).text)  \n   \n        for j in soup.findAll(\"div\",{\"class\":\"quote\"}):\n                 authors.append((j.find(\"small\",{\"class\":\"author\"})).text)    \n        \n        for k in soup.findAll(\"div\",{\"class\":\"tags\"}):\n                 tags.append((k.find(\"meta\"))['content'])\n\n# create dataframe\ndf = pd.DataFrame(\n    {'Quotes':quotes,\n     'Authors':authors,\n     'Tags':tags\n    })\n\n# YOUR CODE HERE\nraise NotImplementedError()\n\n\n\"\"\"Run this cell to check that yor code returns the correct output\"\"\"\nassert df.iloc[0, 2] == \"change,deep-thoughts,thinking,world\"\nassert len(df) == 100\nassert df.iloc[0, 1] == \"Albert Einstein\"\n\n\nShow result\n\n\ndf.head()\n\n\nCongratulations! You have successfully completed this tutorial."
   },
   {
     "objectID": "assignments.html",
     "href": "assignments.html",
     "title": "Assignments",
     "section": "",
-    "text": "This is a Quarto slidedeck."
+    "text": "Download the Jupyter Notebooks in your local folder webscraping.\n\nTask 1:"
   },
   {
     "objectID": "slide.html",
@@ -42,11 +70,32 @@
     "text": "The following tutorials are mainly based on “” provided by\nTxt"
   },
   {
+    "objectID": "slide.html#webscraping-basics",
+    "href": "slide.html#webscraping-basics",
+    "title": "Slides",
+    "section": "1 Webscraping Basics",
+    "text": "1 Webscraping Basics\n⏯ Webscraping basics codelab"
+  },
+  {
+    "objectID": "slide.html#scraping-quotes",
+    "href": "slide.html#scraping-quotes",
+    "title": "Slides",
+    "section": "2 Scraping quotes",
+    "text": "2 Scraping quotes\nAccept the invitation to application exercise Nr. 1 in Moodle: 💻 scraping-quotes"
+  },
+  {
+    "objectID": "slide.html#twitter-api",
+    "href": "slide.html#twitter-api",
+    "title": "Slides",
+    "section": "3 Twitter API",
+    "text": "3 Twitter API\nOpen this Twitter setup tutorial on GitHub.\n💻 Application exercise: Twitter API"
+  },
+  {
     "objectID": "slide.html#txt",
     "href": "slide.html#txt",
     "title": "Slides",
-    "section": "1 Txt",
-    "text": "1 Txt\nIn this tutorial, you’ll learn:\n\n\n\n\n\n\n\n🖥️ Presentation\n💻 Jupyter Notebook"
+    "section": "4 Txt",
+    "text": "4 Txt\nIn this tutorial, you’ll learn:\n\n\n\n\n\n\n\n🖥️ Presentation\n💻 Jupyter Notebook"
   },
   {
     "objectID": "index.html",
