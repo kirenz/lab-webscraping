@@ -2,4 +2,7 @@
 title: "Assignments"
 ---
 
-This is a Quarto slidedeck. 
+Download the Jupyter Notebooks in your local folder `webscraping`. 
+
+
+- [Task 1:](https://colab.research.google.com/github/kirenz/lab-webscraping/blob/main/code/1_scraping_quotes.ipynb)
