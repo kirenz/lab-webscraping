@@ -5,7 +5,7 @@ execute:
   freeze: auto
 
 website:
-  title: "Lab"
+  title: "Webscraping"
   image: "/images/logo.png"
   favicon: "/images/logo.png"
   search:
