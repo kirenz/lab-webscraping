@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/kirenz/lab-webscraping/requirements.html</loc>
-    <lastmod>2023-09-11T14:55:56.430Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/kirenz/lab-webscraping/code/1_scraping_quotes.html</loc>
-    <lastmod>2023-09-11T14:55:55.386Z</lastmod>
-  </url>
-  <url>
     <loc>https://github.com/kirenz/lab-webscraping/assignments.html</loc>
-    <lastmod>2023-09-11T14:55:54.338Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/kirenz/lab-webscraping/slide.html</loc>
-    <lastmod>2023-09-11T14:55:53.718Z</lastmod>
+    <lastmod>2023-10-26T07:17:58.412Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/kirenz/lab-webscraping/index.html</loc>
-    <lastmod>2023-09-11T14:55:54.650Z</lastmod>
+    <lastmod>2023-10-26T07:17:57.792Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/kirenz/lab-webscraping/slides/slides.html</loc>
-    <lastmod>2023-09-11T14:55:55.770Z</lastmod>
+    <lastmod>2023-10-26T07:17:55.756Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/kirenz/lab-webscraping/code/1_scraping_quotes.html</loc>
+    <lastmod>2023-10-26T07:17:54.320Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/kirenz/lab-webscraping/requirements.html</loc>
+    <lastmod>2023-10-26T07:17:57.460Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/kirenz/lab-webscraping/slide.html</loc>
+    <lastmod>2023-10-26T07:17:58.116Z</lastmod>
   </url>
 </urlset>
