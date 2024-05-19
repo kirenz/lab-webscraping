@@ -1,1 +1,1 @@
-Sitemap: https://github.com/kirenz/lab-webscraping/sitemap.xml
+Sitemap: https://kirenz.github.io/lab-webscraping/sitemap.xml
