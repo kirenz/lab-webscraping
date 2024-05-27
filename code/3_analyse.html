@@ -1265,7 +1265,7 @@ Analyse abgeschlossen und Ergebnisse gespeichert.</code></pre>
 </script>
 </div>
 </div>
-<div id="cell-10" class="cell">
+<div id="cell-10" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import der erforderlichen Bibliotheken gemäß PEP8</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
@@ -1446,6 +1446,238 @@ Analyse abgeschlossen und Ergebnisse gespeichert.</code></pre>
 <span id="cb16-178"><a href="#cb16-178" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb16-179"><a href="#cb16-179" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-180"><a href="#cb16-180" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(interpretations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package punkt to /Users/jankirenz/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package stopwords to
+[nltk_data]     /Users/jankirenz/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Manuelle Überprüfung einiger Bewertungen:
+15     Interessantes Studium mit großem Praxisbezug. ...
+55     Die Lehrinhalte sind sehr stark mit dem Alltag...
+93     Eines vorab, es war nicht alles schlecht. Es g...
+109    Den Studiengang Medienmanagement würde ich ein...
+122    Kleine Gruppen in Seminaren, Dozenten aus der ...
+127    Ich hatte an der Hochschule eine unheimlich sc...
+277    Das Studium ist sehr abwechslungsreich und bie...
+295    Online-Medien-Management war für mich die abso...
+342    Besonders die Selbstorganisation und das eigen...
+627    The Berlin location is a joke. When it comes t...
+Name: Review, dtype: object
+Analyse abgeschlossen und Ergebnisse gespeichert.
+
+### Interpretation der Ergebnisse:
+
+#### Sentiment-Analyse:
+Die Sentiment-Analyse ergab gemischte Ergebnisse mit positiven und negativen Bewertungen. Die manuelle Überprüfung einiger als negativ eingestufter Bewertungen zeigt, dass nicht alle Bewertungen, die als negativ eingestuft wurden, tatsächlich negativen Inhalt haben. Dies könnte auf die Tücken der Sentiment-Analyse hinweisen, insbesondere bei der Verarbeitung von Ironie oder komplexen Sätzen.
+
+#### Wortwolken:
+Die Wortwolken zeigen die häufigsten Begriffe in positiven und negativen Bewertungen. Nach der Bereinigung der Stopwörter bleibt eine klare Ansicht der relevantesten Begriffe.
+
+#### Durchschnittliches Sentiment pro Kategorie und Studiengang:
+Die Visualisierung des durchschnittlichen Sentiments pro Kategorie und Studiengang zeigt deutliche Unterschiede zwischen den Studiengängen. Beispielsweise:
+- **OMM**: Zeigt insgesamt positive Bewertungen, insbesondere in den Kategorien Dozenten und Praxisbezug.
+- **Mittweida**: Hat relativ ausgewogene Bewertungen, aber Schwächen in der Kategorie Organisation.
+
+#### Relative Stärken und Schwächen:
+Die Heatmap zur relativen Analyse zeigt, wie die einzelnen Studiengänge im Vergleich zu den anderen in den verschiedenen Kategorien abschneiden. Ein hoher Rang deutet auf relative Stärken hin, während ein niedriger Rang auf relative Schwächen hinweist.
+- **OMM**: Hat relative Stärken in der Kategorie Dozenten und Praxisbezug.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-7.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-8.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-9.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_analyse_files/figure-html/cell-10-output-10.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+  #altair-viz-b81371a7b8854299886d9d3d920020bc.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-b81371a7b8854299886d9d3d920020bc.vega-embed details,
+  #altair-viz-b81371a7b8854299886d9d3d920020bc.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-b81371a7b8854299886d9d3d920020bc"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-b81371a7b8854299886d9d3d920020bc") {
+      outputDiv = document.getElementById("altair-viz-b81371a7b8854299886d9d3d920020bc");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}, "axis": {"labelFontSize": 12, "titleFontSize": 14}, "title": {"anchor": "start", "color": "gray", "fontSize": 20}}, "data": {"name": "data-b11756af61e967639d9cfba81f1a5b0d"}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "Studiengang", "type": "nominal"}, "column": {"field": "Studiengang", "type": "nominal"}, "x": {"field": "Kategorie", "title": "Kategorie", "type": "nominal"}, "y": {"field": "Sentiment", "title": "Durchschnittliches Sentiment", "type": "quantitative"}}, "title": "Durchschnittliches Sentiment pro Kategorie und Studiengang", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-b11756af61e967639d9cfba81f1a5b0d": [{"Studiengang": "DMW", "Kategorie": "Ausstattung", "Sentiment": 0.07777777777777777}, {"Studiengang": "Macromedia", "Kategorie": "Ausstattung", "Sentiment": 0.056666666666666664}, {"Studiengang": "Mittweida", "Kategorie": "Ausstattung", "Sentiment": 0.1326388888888889}, {"Studiengang": "OMM", "Kategorie": "Ausstattung", "Sentiment": 0.10416666666666666}, {"Studiengang": "DMW", "Kategorie": "Dozenten", "Sentiment": 0.13642276422764227}, {"Studiengang": "Macromedia", "Kategorie": "Dozenten", "Sentiment": 0.09297646797646797}, {"Studiengang": "Mittweida", "Kategorie": "Dozenten", "Sentiment": 0.10032954545454546}, {"Studiengang": "OMM", "Kategorie": "Dozenten", "Sentiment": 0.11068376068376068}, {"Studiengang": "DMW", "Kategorie": "Organisation", "Sentiment": 0.008333333333333331}, {"Studiengang": "Macromedia", "Kategorie": "Organisation", "Sentiment": 0.08287878787878787}, {"Studiengang": "Mittweida", "Kategorie": "Organisation", "Sentiment": 0.09444444444444444}, {"Studiengang": "OMM", "Kategorie": "Organisation", "Sentiment": 0.008333333333333333}, {"Studiengang": "DMW", "Kategorie": "Praxisbezug", "Sentiment": 0.08395176252319109}, {"Studiengang": "Macromedia", "Kategorie": "Praxisbezug", "Sentiment": 0.054761904761904755}, {"Studiengang": "Mittweida", "Kategorie": "Praxisbezug", "Sentiment": 0.06688034188034188}, {"Studiengang": "OMM", "Kategorie": "Praxisbezug", "Sentiment": 0.11571428571428571}, {"Studiengang": "DMW", "Kategorie": "Sonstiges", "Sentiment": 0.06651851851851852}, {"Studiengang": "Macromedia", "Kategorie": "Sonstiges", "Sentiment": 0.05498661311914324}, {"Studiengang": "Mittweida", "Kategorie": "Sonstiges", "Sentiment": 0.049637681159420285}, {"Studiengang": "OMM", "Kategorie": "Sonstiges", "Sentiment": 0.043434343434343436}, {"Studiengang": "DMW", "Kategorie": "Technik", "Sentiment": 0.12857142857142856}, {"Studiengang": "Macromedia", "Kategorie": "Technik", "Sentiment": 0.2333333333333333}, {"Studiengang": "Mittweida", "Kategorie": "Technik", "Sentiment": 0.07170995670995671}, {"Studiengang": "OMM", "Kategorie": "Technik", "Sentiment": 0.0125}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+  #altair-viz-e450f80f79ce464e89cba857287d449f.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-e450f80f79ce464e89cba857287d449f.vega-embed details,
+  #altair-viz-e450f80f79ce464e89cba857287d449f.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-e450f80f79ce464e89cba857287d449f"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-e450f80f79ce464e89cba857287d449f") {
+      outputDiv = document.getElementById("altair-viz-e450f80f79ce464e89cba857287d449f");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}, "axis": {"labelFontSize": 12, "titleFontSize": 14}, "title": {"anchor": "start", "color": "gray", "fontSize": 20}}, "data": {"name": "data-97205c3c5c6e739b21bf576d53f79d0c"}, "mark": {"type": "rect"}, "encoding": {"color": {"field": "Rang", "scale": {"domain": [1, 4], "range": ["green", "red"]}, "title": "Rang", "type": "quantitative"}, "text": {"field": "Rang", "type": "quantitative"}, "tooltip": [{"field": "Studiengang", "type": "nominal"}, {"field": "Kategorie", "type": "nominal"}, {"field": "Rang", "type": "quantitative"}], "x": {"field": "Kategorie", "title": "Kategorie", "type": "nominal"}, "y": {"field": "Studiengang", "title": "Studiengang", "type": "nominal"}}, "title": "Relative St\u00e4rken und Schw\u00e4chen pro Kategorie und Studiengang", "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-97205c3c5c6e739b21bf576d53f79d0c": [{"Studiengang": "DMW", "Kategorie": "Ausstattung", "Rang": 2.0}, {"Studiengang": "Macromedia", "Kategorie": "Ausstattung", "Rang": 1.0}, {"Studiengang": "Mittweida", "Kategorie": "Ausstattung", "Rang": 4.0}, {"Studiengang": "OMM", "Kategorie": "Ausstattung", "Rang": 3.0}, {"Studiengang": "DMW", "Kategorie": "Dozenten", "Rang": 4.0}, {"Studiengang": "Macromedia", "Kategorie": "Dozenten", "Rang": 1.0}, {"Studiengang": "Mittweida", "Kategorie": "Dozenten", "Rang": 2.0}, {"Studiengang": "OMM", "Kategorie": "Dozenten", "Rang": 3.0}, {"Studiengang": "DMW", "Kategorie": "Organisation", "Rang": 1.0}, {"Studiengang": "Macromedia", "Kategorie": "Organisation", "Rang": 3.0}, {"Studiengang": "Mittweida", "Kategorie": "Organisation", "Rang": 4.0}, {"Studiengang": "OMM", "Kategorie": "Organisation", "Rang": 2.0}, {"Studiengang": "DMW", "Kategorie": "Praxisbezug", "Rang": 3.0}, {"Studiengang": "Macromedia", "Kategorie": "Praxisbezug", "Rang": 1.0}, {"Studiengang": "Mittweida", "Kategorie": "Praxisbezug", "Rang": 2.0}, {"Studiengang": "OMM", "Kategorie": "Praxisbezug", "Rang": 4.0}, {"Studiengang": "DMW", "Kategorie": "Sonstiges", "Rang": 4.0}, {"Studiengang": "Macromedia", "Kategorie": "Sonstiges", "Rang": 3.0}, {"Studiengang": "Mittweida", "Kategorie": "Sonstiges", "Rang": 2.0}, {"Studiengang": "OMM", "Kategorie": "Sonstiges", "Rang": 1.0}, {"Studiengang": "DMW", "Kategorie": "Technik", "Rang": 3.0}, {"Studiengang": "Macromedia", "Kategorie": "Technik", "Rang": 4.0}, {"Studiengang": "Mittweida", "Kategorie": "Technik", "Rang": 2.0}, {"Studiengang": "OMM", "Kategorie": "Technik", "Rang": 1.0}]}}, {"mode": "vega-lite"});
+</script>
+</div>
 </div>
 
 
