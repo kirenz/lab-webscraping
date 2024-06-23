@@ -150,7 +150,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#daten-laden" id="toc-daten-laden" class="nav-link active" data-scroll-target="#daten-laden">Daten laden</a></li>
+  <li><a href="#stoppwörter-definieren" id="toc-stoppwörter-definieren" class="nav-link" data-scroll-target="#stoppwörter-definieren">Stoppwörter definieren</a></li>
+  <li><a href="#textbereiningung" id="toc-textbereiningung" class="nav-link" data-scroll-target="#textbereiningung">Textbereiningung</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -179,9 +187,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Activate environment</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate sentiment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Install modules (once)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install jupyter ipykernel pandas selenium webdriver-manager beautifulsoup4 nltk spacy wordcloud matplotlib altair</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install jupyter ipykernel pandas nltk spacy spacytextblob wordcloud matplotlib altair</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Import modules (always)</p>
-<div id="cell-2" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import der erforderlichen Bibliotheken gemäß PEP8</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
@@ -192,249 +200,254 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>ModuleNotFoundError: No module named 'spacy'</code></pre>
-</div>
 </div>
 <div id="cell-3" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Herunterladen der NLTK-Ressourcen</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Herunterladen der NLTK-Ressourcen</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-4" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Zusätzliche Stopwörter definieren</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>additional_stopwords <span class="op">=</span> <span class="bu">set</span>([</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'hochschule'</span>, <span class="st">'uni'</span>, <span class="st">'universität'</span>, <span class="st">'semester'</span>, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'student'</span>, <span class="st">'studieren'</span>, <span class="st">'studierende'</span>, <span class="st">'fach'</span>, <span class="st">'lehrveranstaltung'</span>, <span class="st">'professor'</span>, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dozent'</span>, <span class="st">'viele'</span>, <span class="st">'dabei'</span>, <span class="st">'ab'</span>, <span class="st">'jedoch'</span>, <span class="st">'auch'</span>, <span class="st">'immer'</span>, <span class="st">'während'</span>, <span class="st">'mehr'</span>, </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bisher'</span>, <span class="st">'obwohl'</span>, <span class="st">'zudem'</span>, <span class="st">'hochschule'</span>, <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'semester'</span>, <span class="st">'erfahrungsbericht'</span>, </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'weiterlesen'</span>, <span class="st">'dozenten'</span>, <span class="st">'gut'</span>, <span class="st">'viele'</span>, <span class="st">'immer'</span>, <span class="st">'gibt'</span>, <span class="st">'hdm'</span>, </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'macromedia'</span>, <span class="st">'mittweida'</span>, <span class="st">'vorlesungen'</span>,  <span class="st">'aber'</span>, <span class="st">'alle'</span>, <span class="st">'allem'</span>, <span class="st">'allen'</span>, <span class="st">'aller'</span>, <span class="st">'alles'</span>, <span class="st">'als'</span>, <span class="st">'also'</span>, <span class="st">'am'</span>, <span class="st">'an'</span>, <span class="st">'ander'</span>, <span class="st">'andere'</span>, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'anderem'</span>, <span class="st">'anderen'</span>, <span class="st">'anderer'</span>, <span class="st">'anderes'</span>, <span class="st">'anderm'</span>, <span class="st">'andern'</span>, <span class="st">'anderr'</span>, <span class="st">'anders'</span>, <span class="st">'auch'</span>, </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'auf'</span>, <span class="st">'aus'</span>, <span class="st">'bei'</span>, <span class="st">'bin'</span>, <span class="st">'bis'</span>, <span class="st">'bist'</span>, <span class="st">'da'</span>, <span class="st">'damit'</span>, <span class="st">'dann'</span>, <span class="st">'der'</span>, <span class="st">'den'</span>, <span class="st">'des'</span>, <span class="st">'dem'</span>, </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'die'</span>, <span class="st">'das'</span>, <span class="st">'dass'</span>, <span class="st">'daß'</span>, <span class="st">'derselbe'</span>, <span class="st">'derselben'</span>, <span class="st">'denselben'</span>, <span class="st">'desselben'</span>, <span class="st">'demselben'</span>, </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieselbe'</span>, <span class="st">'dieselben'</span>, <span class="st">'dasselbe'</span>, <span class="st">'dazu'</span>, <span class="st">'dein'</span>, <span class="st">'deine'</span>, <span class="st">'deinem'</span>, <span class="st">'deinen'</span>, <span class="st">'deiner'</span>, </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deines'</span>, <span class="st">'denn'</span>, <span class="st">'derer'</span>, <span class="st">'dessen'</span>, <span class="st">'dich'</span>, <span class="st">'dir'</span>, <span class="st">'du'</span>, <span class="st">'dies'</span>, <span class="st">'diese'</span>, <span class="st">'diesem'</span>, <span class="st">'diesen'</span>, </span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieser'</span>, <span class="st">'dieses'</span>, <span class="st">'doch'</span>, <span class="st">'dort'</span>, <span class="st">'durch'</span>, <span class="st">'ein'</span>, <span class="st">'eine'</span>, <span class="st">'einem'</span>, <span class="st">'einen'</span>, <span class="st">'einer'</span>, <span class="st">'eines'</span>, </span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'einig'</span>, <span class="st">'einige'</span>, <span class="st">'einigem'</span>, <span class="st">'einigen'</span>, <span class="st">'einiger'</span>, <span class="st">'einiges'</span>, <span class="st">'einmal'</span>, <span class="st">'er'</span>, <span class="st">'ihn'</span>, <span class="st">'ihm'</span>, </span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'es'</span>, <span class="st">'etwas'</span>, <span class="st">'euer'</span>, <span class="st">'eure'</span>, <span class="st">'eurem'</span>, <span class="st">'euren'</span>, <span class="st">'eurer'</span>, <span class="st">'eures'</span>, <span class="st">'für'</span>, <span class="st">'gegen'</span>, <span class="st">'gewesen'</span>, </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hab'</span>, <span class="st">'habe'</span>, <span class="st">'haben'</span>, <span class="st">'hat'</span>, <span class="st">'hatte'</span>, <span class="st">'hatten'</span>, <span class="st">'hier'</span>, <span class="st">'hin'</span>, <span class="st">'hinter'</span>, <span class="st">'ich'</span>, <span class="st">'mich'</span>, </span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mir'</span>, <span class="st">'ihr'</span>, <span class="st">'ihre'</span>, <span class="st">'ihrem'</span>, <span class="st">'ihren'</span>, <span class="st">'ihrer'</span>, <span class="st">'ihres'</span>, <span class="st">'euch'</span>, <span class="st">'im'</span>, <span class="st">'in'</span>, <span class="st">'indem'</span>, <span class="st">'ins'</span>, </span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ist'</span>, <span class="st">'jede'</span>, <span class="st">'jedem'</span>, <span class="st">'jeden'</span>, <span class="st">'jeder'</span>, <span class="st">'jedes'</span>, <span class="st">'jene'</span>, <span class="st">'jenem'</span>, <span class="st">'jenen'</span>, <span class="st">'jener'</span>, <span class="st">'jenes'</span>, </span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'jetzt'</span>, <span class="st">'kann'</span>, <span class="st">'kein'</span>, <span class="st">'keine'</span>, <span class="st">'keinem'</span>, <span class="st">'keinen'</span>, <span class="st">'keiner'</span>, <span class="st">'keines'</span>, <span class="st">'können'</span>, <span class="st">'könnte'</span>, </span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'machen'</span>, <span class="st">'man'</span>, <span class="st">'manche'</span>, <span class="st">'manchem'</span>, <span class="st">'manchen'</span>, <span class="st">'mancher'</span>, <span class="st">'manches'</span>, <span class="st">'mein'</span>, <span class="st">'meine'</span>, </span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'meinem'</span>, <span class="st">'meinen'</span>, <span class="st">'meiner'</span>, <span class="st">'meines'</span>, <span class="st">'mit'</span>, <span class="st">'muss'</span>, <span class="st">'musste'</span>, <span class="st">'nach'</span>, <span class="st">'nicht'</span>, <span class="st">'nichts'</span>, </span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'noch'</span>, <span class="st">'nun'</span>, <span class="st">'nur'</span>, <span class="st">'ob'</span>, <span class="st">'oder'</span>, <span class="st">'ohne'</span>, <span class="st">'sehr'</span>, <span class="st">'sein'</span>, <span class="st">'seine'</span>, <span class="st">'seinem'</span>, <span class="st">'seinen'</span>, </span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'seiner'</span>, <span class="st">'seines'</span>, <span class="st">'selbst'</span>, <span class="st">'sich'</span>, <span class="st">'sie'</span>, <span class="st">'ihnen'</span>, <span class="st">'sind'</span>, <span class="st">'so'</span>, <span class="st">'solche'</span>, <span class="st">'solchem'</span>, </span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'solchen'</span>, <span class="st">'solcher'</span>, <span class="st">'solches'</span>, <span class="st">'soll'</span>, <span class="st">'sollte'</span>, <span class="st">'sondern'</span>, <span class="st">'sonst'</span>, <span class="st">'über'</span>, <span class="st">'um'</span>, <span class="st">'und'</span>, </span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'uns'</span>, <span class="st">'unsere'</span>, <span class="st">'unserem'</span>, <span class="st">'unseren'</span>, <span class="st">'unser'</span>, <span class="st">'unseres'</span>, <span class="st">'unter'</span>, <span class="st">'viel'</span>, <span class="st">'vom'</span>, <span class="st">'von'</span>, </span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vor'</span>, <span class="st">'während'</span>, <span class="st">'war'</span>, <span class="st">'waren'</span>, <span class="st">'warst'</span>, <span class="st">'was'</span>, <span class="st">'weg'</span>, <span class="st">'weil'</span>, <span class="st">'weiter'</span>, <span class="st">'welche'</span>, <span class="st">'welchem'</span>, </span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'welchen'</span>, <span class="st">'welcher'</span>, <span class="st">'welches'</span>, <span class="st">'wenn'</span>, <span class="st">'werde'</span>, <span class="st">'werden'</span>, <span class="st">'wie'</span>, <span class="st">'wieder'</span>, <span class="st">'will'</span>, <span class="st">'wir'</span>, </span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wird'</span>, <span class="st">'wirst'</span>, <span class="st">'wo'</span>, <span class="st">'wollen'</span>, <span class="st">'wollte'</span>, <span class="st">'würde'</span>, <span class="st">'würden'</span>, <span class="st">'zu'</span>, <span class="st">'zum'</span>, <span class="st">'zur'</span>, <span class="st">'zwar'</span>, </span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'zwischen'</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="daten-laden" class="level2">
+<h2 class="anchored" data-anchor-id="daten-laden">Daten laden</h2>
 <div id="cell-5" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Textbereinigungsfunktion</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_text(text):</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> word_tokenize(text.lower())</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stopwords.words(<span class="st">'german'</span>)]</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> additional_stopwords]</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word.isalnum()]</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade die CSV-Dateien</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mittweida_df <span class="op">=</span> pd.read_csv(<span class="st">'medienmanagement_mittweida_reviews.csv'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>hdm_omm_df <span class="op">=</span> pd.read_csv(<span class="st">'online_medien_management_hdm_reviews.csv'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>macromedia_df <span class="op">=</span> pd.read_csv(<span class="st">'medien_und_kommunikationsmanagement_macromedia_hochschule_reviews.csv'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>hdm_mw_df <span class="op">=</span> pd.read_csv(<span class="st">'digital_und_medienwirtschaft_hdm_reviews.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Generierung von Wortwolken</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_wordcloud(text, title):</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate(text)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Füge eine Spalte für den Studiengang hinzu</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mittweida_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Mittweida'</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>hdm_omm_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'OMM'</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>macromedia_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Macromedia'</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>hdm_mw_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'DMW'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-7" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade die CSV-Dateien</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>mittweida_df <span class="op">=</span> pd.read_csv(<span class="st">'medienmanagement_mittweida_reviews.csv'</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>hdm_omm_df <span class="op">=</span> pd.read_csv(<span class="st">'online_medien_management_hdm_reviews.csv'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>macromedia_df <span class="op">=</span> pd.read_csv(<span class="st">'medien_und_kommunikationsmanagement_macromedia_hochschule_reviews.csv'</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>hdm_mw_df <span class="op">=</span> pd.read_csv(<span class="st">'digital_und_medienwirtschaft_hdm_reviews.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Kombiniere die DataFrames für die Analyse</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df <span class="op">=</span> pd.concat([mittweida_df, hdm_omm_df, macromedia_df, hdm_mw_df], ignore_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Füge eine Spalte für den Studiengang hinzu</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>mittweida_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Mittweida'</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>hdm_omm_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'OMM'</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>macromedia_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Macromedia'</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>hdm_mw_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'DMW'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</section>
+<section id="stoppwörter-definieren" class="level2">
+<h2 class="anchored" data-anchor-id="stoppwörter-definieren">Stoppwörter definieren</h2>
 <div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Kombiniere die DataFrames für die Analyse</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df <span class="op">=</span> pd.concat([mittweida_df, hdm_omm_df, macromedia_df, hdm_mw_df], ignore_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Zusätzliche Stopwörter definieren</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>additional_stopwords <span class="op">=</span> <span class="bu">set</span>([</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'hochschule'</span>, <span class="st">'uni'</span>, <span class="st">'universität'</span>, <span class="st">'semester'</span>, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'student'</span>, <span class="st">'studieren'</span>, <span class="st">'studierende'</span>, <span class="st">'fach'</span>, <span class="st">'lehrveranstaltung'</span>, <span class="st">'professor'</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dozent'</span>, <span class="st">'viele'</span>, <span class="st">'dabei'</span>, <span class="st">'ab'</span>, <span class="st">'jedoch'</span>, <span class="st">'auch'</span>, <span class="st">'immer'</span>, <span class="st">'während'</span>, <span class="st">'mehr'</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bisher'</span>, <span class="st">'obwohl'</span>, <span class="st">'zudem'</span>, <span class="st">'hochschule'</span>, <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'semester'</span>, <span class="st">'erfahrungsbericht'</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'weiterlesen'</span>, <span class="st">'dozenten'</span>, <span class="st">'gut'</span>, <span class="st">'viele'</span>, <span class="st">'immer'</span>, <span class="st">'gibt'</span>, <span class="st">'hdm'</span>, </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'macromedia'</span>, <span class="st">'mittweida'</span>, <span class="st">'vorlesungen'</span>,  <span class="st">'aber'</span>, <span class="st">'alle'</span>, <span class="st">'allem'</span>, <span class="st">'allen'</span>, <span class="st">'aller'</span>, <span class="st">'alles'</span>, <span class="st">'als'</span>, <span class="st">'also'</span>, <span class="st">'am'</span>, <span class="st">'an'</span>, <span class="st">'ander'</span>, <span class="st">'andere'</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'anderem'</span>, <span class="st">'anderen'</span>, <span class="st">'anderer'</span>, <span class="st">'anderes'</span>, <span class="st">'anderm'</span>, <span class="st">'andern'</span>, <span class="st">'anderr'</span>, <span class="st">'anders'</span>, <span class="st">'auch'</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'auf'</span>, <span class="st">'aus'</span>, <span class="st">'bei'</span>, <span class="st">'bin'</span>, <span class="st">'bis'</span>, <span class="st">'bist'</span>, <span class="st">'da'</span>, <span class="st">'damit'</span>, <span class="st">'dann'</span>, <span class="st">'der'</span>, <span class="st">'den'</span>, <span class="st">'des'</span>, <span class="st">'dem'</span>, </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'die'</span>, <span class="st">'das'</span>, <span class="st">'dass'</span>, <span class="st">'daß'</span>, <span class="st">'derselbe'</span>, <span class="st">'derselben'</span>, <span class="st">'denselben'</span>, <span class="st">'desselben'</span>, <span class="st">'demselben'</span>, </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieselbe'</span>, <span class="st">'dieselben'</span>, <span class="st">'dasselbe'</span>, <span class="st">'dazu'</span>, <span class="st">'dein'</span>, <span class="st">'deine'</span>, <span class="st">'deinem'</span>, <span class="st">'deinen'</span>, <span class="st">'deiner'</span>, </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deines'</span>, <span class="st">'denn'</span>, <span class="st">'derer'</span>, <span class="st">'dessen'</span>, <span class="st">'dich'</span>, <span class="st">'dir'</span>, <span class="st">'du'</span>, <span class="st">'dies'</span>, <span class="st">'diese'</span>, <span class="st">'diesem'</span>, <span class="st">'diesen'</span>, </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieser'</span>, <span class="st">'dieses'</span>, <span class="st">'doch'</span>, <span class="st">'dort'</span>, <span class="st">'durch'</span>, <span class="st">'ein'</span>, <span class="st">'eine'</span>, <span class="st">'einem'</span>, <span class="st">'einen'</span>, <span class="st">'einer'</span>, <span class="st">'eines'</span>, </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'einig'</span>, <span class="st">'einige'</span>, <span class="st">'einigem'</span>, <span class="st">'einigen'</span>, <span class="st">'einiger'</span>, <span class="st">'einiges'</span>, <span class="st">'einmal'</span>, <span class="st">'er'</span>, <span class="st">'ihn'</span>, <span class="st">'ihm'</span>, </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'es'</span>, <span class="st">'etwas'</span>, <span class="st">'euer'</span>, <span class="st">'eure'</span>, <span class="st">'eurem'</span>, <span class="st">'euren'</span>, <span class="st">'eurer'</span>, <span class="st">'eures'</span>, <span class="st">'für'</span>, <span class="st">'gegen'</span>, <span class="st">'gewesen'</span>, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hab'</span>, <span class="st">'habe'</span>, <span class="st">'haben'</span>, <span class="st">'hat'</span>, <span class="st">'hatte'</span>, <span class="st">'hatten'</span>, <span class="st">'hier'</span>, <span class="st">'hin'</span>, <span class="st">'hinter'</span>, <span class="st">'ich'</span>, <span class="st">'mich'</span>, </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mir'</span>, <span class="st">'ihr'</span>, <span class="st">'ihre'</span>, <span class="st">'ihrem'</span>, <span class="st">'ihren'</span>, <span class="st">'ihrer'</span>, <span class="st">'ihres'</span>, <span class="st">'euch'</span>, <span class="st">'im'</span>, <span class="st">'in'</span>, <span class="st">'indem'</span>, <span class="st">'ins'</span>, </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ist'</span>, <span class="st">'jede'</span>, <span class="st">'jedem'</span>, <span class="st">'jeden'</span>, <span class="st">'jeder'</span>, <span class="st">'jedes'</span>, <span class="st">'jene'</span>, <span class="st">'jenem'</span>, <span class="st">'jenen'</span>, <span class="st">'jener'</span>, <span class="st">'jenes'</span>, </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'jetzt'</span>, <span class="st">'kann'</span>, <span class="st">'kein'</span>, <span class="st">'keine'</span>, <span class="st">'keinem'</span>, <span class="st">'keinen'</span>, <span class="st">'keiner'</span>, <span class="st">'keines'</span>, <span class="st">'können'</span>, <span class="st">'könnte'</span>, </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'machen'</span>, <span class="st">'man'</span>, <span class="st">'manche'</span>, <span class="st">'manchem'</span>, <span class="st">'manchen'</span>, <span class="st">'mancher'</span>, <span class="st">'manches'</span>, <span class="st">'mein'</span>, <span class="st">'meine'</span>, </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'meinem'</span>, <span class="st">'meinen'</span>, <span class="st">'meiner'</span>, <span class="st">'meines'</span>, <span class="st">'mit'</span>, <span class="st">'muss'</span>, <span class="st">'musste'</span>, <span class="st">'nach'</span>, <span class="st">'nicht'</span>, <span class="st">'nichts'</span>, </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'noch'</span>, <span class="st">'nun'</span>, <span class="st">'nur'</span>, <span class="st">'ob'</span>, <span class="st">'oder'</span>, <span class="st">'ohne'</span>, <span class="st">'sehr'</span>, <span class="st">'sein'</span>, <span class="st">'seine'</span>, <span class="st">'seinem'</span>, <span class="st">'seinen'</span>, </span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'seiner'</span>, <span class="st">'seines'</span>, <span class="st">'selbst'</span>, <span class="st">'sich'</span>, <span class="st">'sie'</span>, <span class="st">'ihnen'</span>, <span class="st">'sind'</span>, <span class="st">'so'</span>, <span class="st">'solche'</span>, <span class="st">'solchem'</span>, </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'solchen'</span>, <span class="st">'solcher'</span>, <span class="st">'solches'</span>, <span class="st">'soll'</span>, <span class="st">'sollte'</span>, <span class="st">'sondern'</span>, <span class="st">'sonst'</span>, <span class="st">'über'</span>, <span class="st">'um'</span>, <span class="st">'und'</span>, </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'uns'</span>, <span class="st">'unsere'</span>, <span class="st">'unserem'</span>, <span class="st">'unseren'</span>, <span class="st">'unser'</span>, <span class="st">'unseres'</span>, <span class="st">'unter'</span>, <span class="st">'viel'</span>, <span class="st">'vom'</span>, <span class="st">'von'</span>, </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vor'</span>, <span class="st">'während'</span>, <span class="st">'war'</span>, <span class="st">'waren'</span>, <span class="st">'warst'</span>, <span class="st">'was'</span>, <span class="st">'weg'</span>, <span class="st">'weil'</span>, <span class="st">'weiter'</span>, <span class="st">'welche'</span>, <span class="st">'welchem'</span>, </span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'welchen'</span>, <span class="st">'welcher'</span>, <span class="st">'welches'</span>, <span class="st">'wenn'</span>, <span class="st">'werde'</span>, <span class="st">'werden'</span>, <span class="st">'wie'</span>, <span class="st">'wieder'</span>, <span class="st">'will'</span>, <span class="st">'wir'</span>, </span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wird'</span>, <span class="st">'wirst'</span>, <span class="st">'wo'</span>, <span class="st">'wollen'</span>, <span class="st">'wollte'</span>, <span class="st">'würde'</span>, <span class="st">'würden'</span>, <span class="st">'zu'</span>, <span class="st">'zum'</span>, <span class="st">'zur'</span>, <span class="st">'zwar'</span>, </span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'zwischen'</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Bereinige die Texte in den Reviews</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'cleaned_review'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'Review'</span>].<span class="bu">apply</span>(clean_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</section>
+<section id="textbereiningung" class="level2">
+<h2 class="anchored" data-anchor-id="textbereiningung">Textbereiningung</h2>
 <div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade das deutsche Sprachmodell und füge die SpacyTextBlob-Komponente hinzu</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">'de_core_news_sm'</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>spacy_text_blob <span class="op">=</span> SpacyTextBlob(nlp)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>nlp.add_pipe(<span class="st">'spacytextblob'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Textbereinigungsfunktion</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_text(text):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> word_tokenize(text.lower())</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stopwords.words(<span class="st">'german'</span>)]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> additional_stopwords]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word.isalnum()]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Sentiment-Analyse-Funktion</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_sentiment(text):</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    doc <span class="op">=</span> nlp(text)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> doc._.polarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Bereinige die Texte in den Reviews</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'cleaned_review'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'Review'</span>].<span class="bu">apply</span>(clean_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-13" class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe die Sentiment-Analyse durch</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'cleaned_review'</span>].<span class="bu">apply</span>(get_sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Generierung von Wortwolken</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_wordcloud(text, title):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate(text)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Überprüfung der Sentiment-Analyse durch manuelle Überprüfung einiger Beispiele</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Manuelle Überprüfung einiger Bewertungen:"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(all_reviews_df[(all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">&lt;</span> <span class="dv">0</span>)].head(<span class="dv">10</span>)[<span class="st">'Review'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade das deutsche Sprachmodell und füge die SpacyTextBlob-Komponente hinzu</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">'de_core_news_sm'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>spacy_text_blob <span class="op">=</span> SpacyTextBlob(nlp)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>nlp.add_pipe(<span class="st">'spacytextblob'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-15" class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Positive und negative Bewertungen trennen und Wortwolken erstellen</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> studiengang <span class="kw">in</span> all_reviews_df[<span class="st">'Studiengang'</span>].unique():</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    pos_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[(all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang) <span class="op">&amp;</span> (all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">&gt;</span> <span class="dv">0</span>)][<span class="st">'cleaned_review'</span>])</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    neg_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[(all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang) <span class="op">&amp;</span> (all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">&lt;</span> <span class="dv">0</span>)][<span class="st">'cleaned_review'</span>])</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wortwolke für positive Bewertungen</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    generate_wordcloud(pos_reviews, <span class="ss">f'</span><span class="sc">{</span>studiengang<span class="sc">}</span><span class="ss"> - Positive Reviews'</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wortwolke für negative Bewertungen</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    generate_wordcloud(neg_reviews, <span class="ss">f'</span><span class="sc">{</span>studiengang<span class="sc">}</span><span class="ss"> - Negative Reviews'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Sentiment-Analyse-Funktion</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_sentiment(text):</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    doc <span class="op">=</span> nlp(text)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> doc._.polarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-16" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Kategorisierung der Bewertungen</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> [<span class="st">'Dozenten'</span>, <span class="st">'Technik'</span>, <span class="st">'Ausstattung'</span>, <span class="st">'Organisation'</span>, <span class="st">'Praxisbezug'</span>]</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>category_keywords <span class="op">=</span> {</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Dozenten'</span>: [<span class="st">'dozent'</span>, <span class="st">'professor'</span>, <span class="st">'lehrkraft'</span>],</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Technik'</span>: [<span class="st">'technik'</span>, <span class="st">'computer'</span>, <span class="st">'software'</span>, <span class="st">'hardware'</span>],</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Ausstattung'</span>: [<span class="st">'ausstattung'</span>, <span class="st">'raum'</span>, <span class="st">'labor'</span>, <span class="st">'bibliothek'</span>],</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Organisation'</span>: [<span class="st">'organisation'</span>, <span class="st">'verwaltung'</span>, <span class="st">'koordinierung'</span>],</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Praxisbezug'</span>: [<span class="st">'praxis'</span>, <span class="st">'projekt'</span>, <span class="st">'praktikum'</span>, <span class="st">'anwendung'</span>]</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe die Sentiment-Analyse durch</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'cleaned_review'</span>].<span class="bu">apply</span>(get_sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-17" class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Kategorisierung der Bewertungen</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> categorize_review(review):</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> category, keywords <span class="kw">in</span> category_keywords.items():</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">any</span>(keyword <span class="kw">in</span> review.lower() <span class="cf">for</span> keyword <span class="kw">in</span> keywords):</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> category</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">'Sonstiges'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Überprüfung der Sentiment-Analyse durch manuelle Überprüfung einiger Beispiele</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Manuelle Überprüfung einiger Bewertungen:"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(all_reviews_df[(all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">&lt;</span> <span class="dv">0</span>)].head(<span class="dv">10</span>)[<span class="st">'Review'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'category'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'cleaned_review'</span>].<span class="bu">apply</span>(categorize_review)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Positive und negative Bewertungen trennen und Wortwolken erstellen</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> studiengang <span class="kw">in</span> all_reviews_df[<span class="st">'Studiengang'</span>].unique():</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    pos_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[(all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang) <span class="op">&amp;</span> (all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">&gt;</span> <span class="dv">0</span>)][<span class="st">'cleaned_review'</span>])</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    neg_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[(all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang) <span class="op">&amp;</span> (all_reviews_df[<span class="st">'sentiment'</span>] <span class="op">&lt;</span> <span class="dv">0</span>)][<span class="st">'cleaned_review'</span>])</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wortwolke für positive Bewertungen</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    generate_wordcloud(pos_reviews, <span class="ss">f'</span><span class="sc">{</span>studiengang<span class="sc">}</span><span class="ss"> - Positive Reviews'</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wortwolke für negative Bewertungen</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    generate_wordcloud(neg_reviews, <span class="ss">f'</span><span class="sc">{</span>studiengang<span class="sc">}</span><span class="ss"> - Negative Reviews'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-19" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Durchschnittliches Sentiment pro Kategorie und Studiengang</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>category_sentiment <span class="op">=</span> all_reviews_df.groupby([<span class="st">'Studiengang'</span>, <span class="st">'category'</span>])[<span class="st">'sentiment'</span>].mean().unstack()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Kategorisierung der Bewertungen</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> [<span class="st">'Dozenten'</span>, <span class="st">'Technik'</span>, <span class="st">'Ausstattung'</span>, <span class="st">'Organisation'</span>, <span class="st">'Praxisbezug'</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>category_keywords <span class="op">=</span> {</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Dozenten'</span>: [<span class="st">'dozent'</span>, <span class="st">'professor'</span>, <span class="st">'lehrkraft'</span>],</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Technik'</span>: [<span class="st">'technik'</span>, <span class="st">'computer'</span>, <span class="st">'software'</span>, <span class="st">'hardware'</span>],</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Ausstattung'</span>: [<span class="st">'ausstattung'</span>, <span class="st">'raum'</span>, <span class="st">'labor'</span>, <span class="st">'bibliothek'</span>],</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Organisation'</span>: [<span class="st">'organisation'</span>, <span class="st">'verwaltung'</span>, <span class="st">'koordinierung'</span>],</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Praxisbezug'</span>: [<span class="st">'praxis'</span>, <span class="st">'projekt'</span>, <span class="st">'praktikum'</span>, <span class="st">'anwendung'</span>]</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisierung der durchschnittlichen Sentiments pro Kategorie und Studiengang mit Altair</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>category_sentiment_reset <span class="op">=</span> category_sentiment.reset_index().melt(id_vars<span class="op">=</span><span class="st">'Studiengang'</span>, var_name<span class="op">=</span><span class="st">'Kategorie'</span>, value_name<span class="op">=</span><span class="st">'Sentiment'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Kategorisierung der Bewertungen</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> categorize_review(review):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> category, keywords <span class="kw">in</span> category_keywords.items():</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">any</span>(keyword <span class="kw">in</span> review.lower() <span class="cf">for</span> keyword <span class="kw">in</span> keywords):</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> category</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">'Sonstiges'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-21" class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>bar_chart <span class="op">=</span> alt.Chart(category_sentiment_reset).mark_bar().encode(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Kategorie:N'</span>, title<span class="op">=</span><span class="st">'Kategorie'</span>),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'Sentiment:Q'</span>, title<span class="op">=</span><span class="st">'Durchschnittliches Sentiment'</span>),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'Studiengang:N'</span>,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'Studiengang:N'</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>).properties(</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Durchschnittliches Sentiment pro Kategorie und Studiengang'</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>).configure_title(</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    fontSize<span class="op">=</span><span class="dv">20</span>,</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    anchor<span class="op">=</span><span class="st">'start'</span>,</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>).configure_axis(</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    labelFontSize<span class="op">=</span><span class="dv">12</span>,</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    titleFontSize<span class="op">=</span><span class="dv">14</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>bar_chart.display()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'category'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'cleaned_review'</span>].<span class="bu">apply</span>(categorize_review)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Relative Gegenüberstellung der Bewertungen</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>relative_strengths <span class="op">=</span> all_reviews_df.groupby([<span class="st">'Studiengang'</span>, <span class="st">'category'</span>])[<span class="st">'sentiment'</span>].mean().unstack().rank(axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Durchschnittliches Sentiment pro Kategorie und Studiengang</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>category_sentiment <span class="op">=</span> all_reviews_df.groupby([<span class="st">'Studiengang'</span>, <span class="st">'category'</span>])[<span class="st">'sentiment'</span>].mean().unstack()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-23" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisierung der relativen Stärken und Schwächen mit Altair</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>relative_strengths_reset <span class="op">=</span> relative_strengths.reset_index().melt(id_vars<span class="op">=</span><span class="st">'Studiengang'</span>, var_name<span class="op">=</span><span class="st">'Kategorie'</span>, value_name<span class="op">=</span><span class="st">'Rang'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisierung der durchschnittlichen Sentiments pro Kategorie und Studiengang mit Altair</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>category_sentiment_reset <span class="op">=</span> category_sentiment.reset_index().melt(id_vars<span class="op">=</span><span class="st">'Studiengang'</span>, var_name<span class="op">=</span><span class="st">'Kategorie'</span>, value_name<span class="op">=</span><span class="st">'Sentiment'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-24" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> alt.Chart(relative_strengths_reset).mark_rect().encode(</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Kategorie:N'</span>, title<span class="op">=</span><span class="st">'Kategorie'</span>),</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'Studiengang:N'</span>, title<span class="op">=</span><span class="st">'Studiengang'</span>),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>alt.Color(<span class="st">'Rang:Q'</span>, scale<span class="op">=</span>alt.Scale(domain<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">4</span>], <span class="bu">range</span><span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>]), title<span class="op">=</span><span class="st">'Rang'</span>),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span>[<span class="st">'Studiengang'</span>, <span class="st">'Kategorie'</span>, <span class="st">'Rang'</span>]</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>).properties(</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Relative Stärken und Schwächen pro Kategorie und Studiengang'</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>).configure_title(</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    fontSize<span class="op">=</span><span class="dv">20</span>,</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    anchor<span class="op">=</span><span class="st">'start'</span>,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>).configure_axis(</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    labelFontSize<span class="op">=</span><span class="dv">12</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    titleFontSize<span class="op">=</span><span class="dv">14</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>).encode(</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>alt.Text(<span class="st">'Rang:Q'</span>)</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>heatmap.display()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>bar_chart <span class="op">=</span> alt.Chart(category_sentiment_reset).mark_bar().encode(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Kategorie:N'</span>, title<span class="op">=</span><span class="st">'Kategorie'</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'Sentiment:Q'</span>, title<span class="op">=</span><span class="st">'Durchschnittliches Sentiment'</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'Studiengang:N'</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'Studiengang:N'</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Durchschnittliches Sentiment pro Kategorie und Studiengang'</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>).configure_title(</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    fontSize<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    anchor<span class="op">=</span><span class="st">'start'</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>).configure_axis(</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    labelFontSize<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    titleFontSize<span class="op">=</span><span class="dv">14</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>bar_chart.display()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-25" class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Speichere die Ergebnisse in einer CSV-Datei</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df.to_csv(<span class="st">'all_reviews_with_sentiment_and_categories.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Analyse abgeschlossen und Ergebnisse gespeichert."</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretationen der Ergebnisse</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>interpretations <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="st">### Interpretation der Ergebnisse:</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="st">#### Sentiment-Analyse:</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="st">Die Sentiment-Analyse ergab gemischte Ergebnisse mit positiven und negativen Bewertungen. Die manuelle Überprüfung einiger als negativ eingestufter Bewertungen zeigt, dass nicht alle Bewertungen, die als negativ eingestuft wurden, tatsächlich negativen Inhalt haben. Dies könnte auf die Tücken der Sentiment-Analyse hinweisen, insbesondere bei der Verarbeitung von Ironie oder komplexen Sätzen.</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="st">#### Durchschnittliches Sentiment pro Kategorie und Studiengang:</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="st">Die Visualisierung des durchschnittlichen Sentiments pro Kategorie und Studiengang zeigt deutliche Unterschiede zwischen den Studiengängen. Beispielsweise:</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="st">- **OMM**: Zeigt insgesamt positive Bewertungen, insbesondere in den Kategorien Dozenten und Praxisbezug.</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="st">- **Mittweida**: Hat relativ ausgewogene Bewertungen, aber Schwächen in der Kategorie Organisation.</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="st">#### Relative Stärken und Schwächen:</span></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="st">Die Heatmap zur relativen Analyse zeigt, wie die einzelnen Studiengänge im Vergleich zu den anderen in den verschiedenen Kategorien abschneiden. Ein hoher Rang deutet auf relative Stärken hin, während ein niedriger Rang auf relative Schwächen hinweist.</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="st">- **OMM**: Hat relative Stärken in der Kategorie Dozenten und Praxisbezug.</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(interpretations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Relative Gegenüberstellung der Bewertungen</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>relative_strengths <span class="op">=</span> all_reviews_df.groupby([<span class="st">'Studiengang'</span>, <span class="st">'category'</span>])[<span class="st">'sentiment'</span>].mean().unstack().rank(axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-26" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisierung der relativen Stärken und Schwächen mit Altair</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>relative_strengths_reset <span class="op">=</span> relative_strengths.reset_index().melt(id_vars<span class="op">=</span><span class="st">'Studiengang'</span>, var_name<span class="op">=</span><span class="st">'Kategorie'</span>, value_name<span class="op">=</span><span class="st">'Rang'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-27" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>heatmap <span class="op">=</span> alt.Chart(relative_strengths_reset).mark_rect().encode(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'Kategorie:N'</span>, title<span class="op">=</span><span class="st">'Kategorie'</span>),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'Studiengang:N'</span>, title<span class="op">=</span><span class="st">'Studiengang'</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>alt.Color(<span class="st">'Rang:Q'</span>, scale<span class="op">=</span>alt.Scale(domain<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">4</span>], <span class="bu">range</span><span class="op">=</span>[<span class="st">'red'</span>, <span class="st">'green'</span>]), title<span class="op">=</span><span class="st">'Rang'</span>),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span>[<span class="st">'Studiengang'</span>, <span class="st">'Kategorie'</span>, <span class="st">'Rang'</span>]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Relative Stärken und Schwächen pro Kategorie und Studiengang'</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>).configure_title(</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    fontSize<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    anchor<span class="op">=</span><span class="st">'start'</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'gray'</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>).configure_axis(</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    labelFontSize<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    titleFontSize<span class="op">=</span><span class="dv">14</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>).encode(</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>alt.Text(<span class="st">'Rang:Q'</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>heatmap.display()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-28" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Speichere die Ergebnisse in einer CSV-Datei</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>all_reviews_df.to_csv(<span class="st">'all_reviews_with_sentiment_and_categories.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Analyse abgeschlossen und Ergebnisse gespeichert."</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Interpretationen der Ergebnisse</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>interpretations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="st">### Interpretation der Ergebnisse:</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="st">#### Sentiment-Analyse:</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="st">Die Sentiment-Analyse ergab gemischte Ergebnisse mit positiven und negativen Bewertungen. Die manuelle Überprüfung einiger als negativ eingestufter Bewertungen zeigt, dass nicht alle Bewertungen, die als negativ eingestuft wurden, tatsächlich negativen Inhalt haben. Dies könnte auf die Tücken der Sentiment-Analyse hinweisen, insbesondere bei der Verarbeitung von Ironie oder komplexen Sätzen.</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="st">#### Durchschnittliches Sentiment pro Kategorie und Studiengang:</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="st">Die Visualisierung des durchschnittlichen Sentiments pro Kategorie und Studiengang zeigt deutliche Unterschiede zwischen den Studiengängen. Beispielsweise:</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="st">- **OMM**: Zeigt insgesamt positive Bewertungen, insbesondere in den Kategorien Dozenten und Praxisbezug.</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="st">- **Mittweida**: Hat relativ ausgewogene Bewertungen, aber Schwächen in der Kategorie Organisation.</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="st">#### Relative Stärken und Schwächen:</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="st">Die Heatmap zur relativen Analyse zeigt, wie die einzelnen Studiengänge im Vergleich zu den anderen in den verschiedenen Kategorien abschneiden. Ein hoher Rang deutet auf relative Stärken hin, während ein niedriger Rang auf relative Schwächen hinweist.</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="st">- **OMM**: Hat relative Stärken in der Kategorie Dozenten und Praxisbezug.</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(interpretations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
