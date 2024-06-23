@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kirenz.github.io/lab-webscraping/code/2_scraping_studycheck.html</loc>
-    <lastmod>2024-05-28T07:56:05.200Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kirenz.github.io/lab-webscraping/code/4_analyse.html</loc>
-    <lastmod>2024-05-28T07:56:05.228Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kirenz.github.io/lab-webscraping/slide.html</loc>
-    <lastmod>2024-05-28T07:56:05.248Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kirenz.github.io/lab-webscraping/index.html</loc>
-    <lastmod>2024-05-28T07:56:05.248Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kirenz.github.io/lab-webscraping/slides/slides.html</loc>
-    <lastmod>2024-05-28T07:56:05.248Z</lastmod>
+    <loc>https://kirenz.github.io/lab-webscraping/requirements.html</loc>
+    <lastmod>2024-06-23T17:18:03.979Z</lastmod>
   </url>
   <url>
     <loc>https://kirenz.github.io/lab-webscraping/assignments.html</loc>
-    <lastmod>2024-05-28T07:56:05.200Z</lastmod>
+    <lastmod>2024-06-23T17:18:03.951Z</lastmod>
   </url>
   <url>
-    <loc>https://kirenz.github.io/lab-webscraping/requirements.html</loc>
-    <lastmod>2024-05-28T07:56:05.248Z</lastmod>
+    <loc>https://kirenz.github.io/lab-webscraping/slides/slides.html</loc>
+    <lastmod>2024-06-23T17:18:03.979Z</lastmod>
   </url>
   <url>
-    <loc>https://kirenz.github.io/lab-webscraping/code/3_analyse.html</loc>
-    <lastmod>2024-05-28T07:56:05.216Z</lastmod>
+    <loc>https://kirenz.github.io/lab-webscraping/code/4_analyse.html</loc>
+    <lastmod>2024-06-23T17:18:03.959Z</lastmod>
   </url>
   <url>
     <loc>https://kirenz.github.io/lab-webscraping/code/1_scraping_quotes.html</loc>
-    <lastmod>2024-05-28T07:56:05.200Z</lastmod>
+    <lastmod>2024-06-23T17:18:03.951Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kirenz.github.io/lab-webscraping/code/3_analyse.html</loc>
+    <lastmod>2024-06-23T17:18:03.951Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kirenz.github.io/lab-webscraping/code/2_scraping_studycheck.html</loc>
+    <lastmod>2024-06-23T17:18:03.951Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kirenz.github.io/lab-webscraping/index.html</loc>
+    <lastmod>2024-06-23T17:18:03.979Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kirenz.github.io/lab-webscraping/slide.html</loc>
+    <lastmod>2024-06-23T17:18:03.979Z</lastmod>
   </url>
 </urlset>
