@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Webscraping - Scraping Studycheck</title>
+<title>Webscraping</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,6 +100,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -150,142 +153,153 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#scraping" id="toc-scraping" class="nav-link" data-scroll-target="#scraping">Scraping</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Scraping Studycheck</h1>
+
+
+
+<div id="cell-0" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'karcher_reviews.csv'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to convert relative date to actual date</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_relative_date(date_str, reference_date):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'day ago'</span> <span class="kw">in</span> date_str <span class="kw">or</span> <span class="st">'days ago'</span> <span class="kw">in</span> date_str:</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        days <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> date_str <span class="op">==</span> <span class="st">'a day ago'</span> <span class="cf">else</span> <span class="bu">int</span>(re.search(<span class="vs">r'\d+'</span>, date_str).group())</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> reference_date <span class="op">-</span> pd.Timedelta(days<span class="op">=</span>days)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'month ago'</span> <span class="kw">in</span> date_str <span class="kw">or</span> <span class="st">'months ago'</span> <span class="kw">in</span> date_str:</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        months <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> date_str <span class="op">==</span> <span class="st">'a month ago'</span> <span class="cf">else</span> <span class="bu">int</span>(re.search(<span class="vs">r'\d+'</span>, date_str).group())</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> reference_date <span class="op">-</span> pd.DateOffset(months<span class="op">=</span>months)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'year ago'</span> <span class="kw">in</span> date_str <span class="kw">or</span> <span class="st">'years ago'</span> <span class="kw">in</span> date_str:</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        years <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> date_str <span class="op">==</span> <span class="st">'a year ago'</span> <span class="cf">else</span> <span class="bu">int</span>(re.search(<span class="vs">r'\d+'</span>, date_str).group())</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> reference_date <span class="op">-</span> pd.DateOffset(years<span class="op">=</span>years)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.to_datetime(date_str)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the reference date (today's date in the context)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>reference_date <span class="op">=</span> datetime(<span class="dv">2024</span>, <span class="dv">6</span>, <span class="dv">29</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new date column</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'actual_date'</span>] <span class="op">=</span> df[<span class="st">'date'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: convert_relative_date(x, reference_date))</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to datetime and extract year-month</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'year_month'</span>] <span class="op">=</span> df[<span class="st">'actual_date'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">'-01'</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'year_month'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'year_month'</span>])</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Count reviews per month</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>reviews_per_month <span class="op">=</span> df.groupby(<span class="st">'year_month'</span>).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the Altair chart</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>chart <span class="op">=</span> alt.Chart(reviews_per_month).mark_line(</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    point<span class="op">=</span>alt.OverlayMarkDef(color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>).encode(</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'year_month:T'</span>, axis<span class="op">=</span>alt.Axis(title<span class="op">=</span><span class="st">'Date'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m'</span>, labelAngle<span class="op">=-</span><span class="dv">45</span>)),</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'count:Q'</span>, axis<span class="op">=</span>alt.Axis(title<span class="op">=</span><span class="st">'Number of Reviews'</span>)),</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span>[</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        alt.Tooltip(<span class="st">'year_month:T'</span>, title<span class="op">=</span><span class="st">'Date'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">'%Y-%m'</span>),</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        alt.Tooltip(<span class="st">'count:Q'</span>, title<span class="op">=</span><span class="st">'Number of Reviews'</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">400</span>,</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Number of Kärcher Reviews per Month'</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>).interactive()</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the chart</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>chart.show()</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Print some statistics</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of reviews: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Date range: from </span><span class="sc">{</span>df[<span class="st">'actual_date'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>df[<span class="st">'actual_date'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">.</span>strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Month with most reviews: </span><span class="sc">{</span>reviews_per_month<span class="sc">.</span>loc[reviews_per_month[<span class="st">'count'</span>].idxmax(), <span class="st">'year_month'</span>]<span class="sc">.</span>strftime(<span class="st">'%Y-%m'</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>reviews_per_month[<span class="st">'count'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss"> reviews)"</span>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Month with least reviews: </span><span class="sc">{</span>reviews_per_month<span class="sc">.</span>loc[reviews_per_month[<span class="st">'count'</span>].idxmin(), <span class="st">'year_month'</span>]<span class="sc">.</span>strftime(<span class="st">'%Y-%m'</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>reviews_per_month[<span class="st">'count'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> reviews)"</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average reviews per month: </span><span class="sc">{</span>reviews_per_month[<span class="st">'count'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+  #altair-viz-f778d4ab0c6c4ffb87e0f9e2f7eebad4.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-f778d4ab0c6c4ffb87e0f9e2f7eebad4.vega-embed details,
+  #altair-viz-f778d4ab0c6c4ffb87e0f9e2f7eebad4.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-f778d4ab0c6c4ffb87e0f9e2f7eebad4"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-f778d4ab0c6c4ffb87e0f9e2f7eebad4") {
+      outputDiv = document.getElementById("altair-viz-f778d4ab0c6c4ffb87e0f9e2f7eebad4");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@5.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-a7c0087518c40d14d6b530b2b37b3528"}, "mark": {"type": "line", "point": {"color": "red"}}, "encoding": {"tooltip": [{"field": "year_month", "format": "%Y-%m", "title": "Date", "type": "temporal"}, {"field": "count", "title": "Number of Reviews", "type": "quantitative"}], "x": {"axis": {"format": "%Y-%m", "labelAngle": -45, "title": "Date"}, "field": "year_month", "type": "temporal"}, "y": {"axis": {"title": "Number of Reviews"}, "field": "count", "type": "quantitative"}}, "height": 400, "params": [{"name": "param_2", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Number of K\u00e4rcher Reviews per Month", "width": 800, "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-a7c0087518c40d14d6b530b2b37b3528": [{"year_month": "2019-06-01T00:00:00", "count": 422}, {"year_month": "2020-06-01T00:00:00", "count": 936}, {"year_month": "2021-06-01T00:00:00", "count": 592}, {"year_month": "2022-06-01T00:00:00", "count": 635}, {"year_month": "2023-06-01T00:00:00", "count": 236}, {"year_month": "2023-07-01T00:00:00", "count": 20}, {"year_month": "2023-08-01T00:00:00", "count": 40}, {"year_month": "2023-09-01T00:00:00", "count": 39}, {"year_month": "2023-10-01T00:00:00", "count": 37}, {"year_month": "2023-11-01T00:00:00", "count": 60}, {"year_month": "2023-12-01T00:00:00", "count": 25}, {"year_month": "2024-01-01T00:00:00", "count": 31}, {"year_month": "2024-02-01T00:00:00", "count": 24}, {"year_month": "2024-03-01T00:00:00", "count": 31}, {"year_month": "2024-04-01T00:00:00", "count": 64}, {"year_month": "2024-05-01T00:00:00", "count": 27}, {"year_month": "2024-06-01T00:00:00", "count": 24}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total number of reviews: 3243
+Date range: from 2019-06-29 to 2024-06-28
+Month with most reviews: 2020-06 (936 reviews)
+Month with least reviews: 2023-07 (20 reviews)
+Average reviews per month: 190.76</code></pre>
+</div>
 </div>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<p>Create virtual environment (once)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> scraping python=3.11 pip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Activate environment</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate scraping</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Install modules (once)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install jupyter ipykernel pandas selenium webdriver-manager beautifulsoup4 nltk spacy </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Import modules (always)</p>
-<div id="cell-3" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.chrome.service <span class="im">import</span> Service</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> webdriver_manager.chrome <span class="im">import</span> ChromeDriverManager</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="scraping" class="level2">
-<h2 class="anchored" data-anchor-id="scraping">Scraping</h2>
-<div id="cell-5" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_page_reviews(driver, page_url):</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Fetches reviews from a single page using Selenium."""</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    driver.get(page_url)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)  <span class="co"># Wait for the page to load and for any pop-ups to appear</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Close the cookie consent pop-up if it appears</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        consent_button <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">'//button[text()="Alles akzeptieren"]'</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        consent_button.click()</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"No cookie consent pop-up found: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract the page source and parse with BeautifulSoup</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    page_source <span class="op">=</span> driver.page_source</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> BeautifulSoup(page_source, <span class="st">'html.parser'</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    review_elements <span class="op">=</span> soup.select(<span class="st">'.item-text'</span>)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    reviews <span class="op">=</span> [review.get_text(strip<span class="op">=</span><span class="va">True</span>) <span class="cf">for</span> review <span class="kw">in</span> review_elements]</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reviews</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scrape_studycheck(base_url, total_pages):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Scrapes reviews from StudyCheck across multiple pages using Selenium."""</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    all_reviews <span class="op">=</span> []</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup Selenium WebDriver</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    service <span class="op">=</span> Service(ChromeDriverManager().install())</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    driver <span class="op">=</span> webdriver.Chrome(service<span class="op">=</span>service)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> page_num <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, total_pages <span class="op">+</span> <span class="dv">1</span>):</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        page_url <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base_url<span class="sc">}</span><span class="ss">/seite-</span><span class="sc">{</span>page_num<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Scraping page </span><span class="sc">{</span>page_num<span class="sc">}</span><span class="ss">..."</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        reviews <span class="op">=</span> get_page_reviews(driver, page_url)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        all_reviews.extend(reviews)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">2</span>)  <span class="co"># Polite delay to avoid overloading the server</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    driver.quit()</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_reviews</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-7" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the base URLs and total pages for each study program</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>study_programs <span class="op">=</span> [</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"name"</span>: <span class="st">"Medienmanagement Mittweida"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"base_url"</span>: <span class="st">"https://www.studycheck.de/studium/medienmanagement/hs-mittweida-429/bewertungen"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total_pages"</span>: <span class="dv">60</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"name"</span>: <span class="st">"Online Medien Management HdM"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"base_url"</span>: <span class="st">"https://www.studycheck.de/studium/medienmanagement/hdm-stuttgart-15774/bewertungen"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total_pages"</span>: <span class="dv">30</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"name"</span>: <span class="st">"Medien und Kommunikationsmanagement Macromedia Hochschule"</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"base_url"</span>: <span class="st">"https://www.studycheck.de/studium/medienmanagement/hs-macromedia-14035/bewertungen"</span>,</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total_pages"</span>: <span class="dv">97</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    ,</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"name"</span>: <span class="st">"Digital und Medienwirtschaft HdM"</span>,</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"base_url"</span>: <span class="st">"https://www.studycheck.de/studium/medienwirtschaft/hdm-stuttgart-16089/bewertungen"</span>,</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total_pages"</span>: <span class="dv">60</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>This script may take while to finish</p>
-<div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Scrape reviews for each study program and save to separate CSV files</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> program <span class="kw">in</span> study_programs:</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Scraping reviews for </span><span class="sc">{</span>program[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss">..."</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    reviews <span class="op">=</span> scrape_studycheck(program[<span class="st">"base_url"</span>], program[<span class="st">"total_pages"</span>])</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(reviews, columns<span class="op">=</span>[<span class="st">'Review'</span>])</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    csv_filename <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>program[<span class="st">'name'</span>]<span class="sc">.</span>replace(<span class="st">' '</span>, <span class="st">'_'</span>)<span class="sc">.</span>lower()<span class="sc">}</span><span class="ss">_reviews.csv"</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    df.to_csv(csv_filename, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Scraping completed and saved to </span><span class="sc">{</span>csv_filename<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

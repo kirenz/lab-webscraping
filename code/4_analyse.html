@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.4.557">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,9 +100,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -177,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cell-2" class="cell" data-execution_count="17">
+<div id="cell-2" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import der erforderlichen Bibliotheken gemäß PEP8</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
@@ -187,434 +184,137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[nltk_data] Downloading package punkt to /Users/jankirenz/nltk_data...
-[nltk_data]   Package punkt is already up-to-date!
-[nltk_data] Downloading package stopwords to
-[nltk_data]     /Users/jankirenz/nltk_data...
-[nltk_data]   Package stopwords is already up-to-date!</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="4_analyse_files/figure-html/cell-2-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="4_analyse_files/figure-html/cell-2-output-3.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="4_analyse_files/figure-html/cell-2-output-4.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="4_analyse_files/figure-html/cell-2-output-5.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Analyse abgeschlossen und Ergebnisse gespeichert.</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="17">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Begriff</th>
-<th data-quarto-table-cell-role="th">Häufigkeit</th>
-<th data-quarto-table-cell-role="th">Studiengang</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>radio</td>
-<td>24</td>
-<td>Mittweida</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>praktisch</td>
-<td>15</td>
-<td>Mittweida</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>stadt</td>
-<td>12</td>
-<td>Mittweida</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>journalismus</td>
-<td>12</td>
-<td>Mittweida</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>verfügung</td>
-<td>11</td>
-<td>Mittweida</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>medienforum</td>
-<td>11</td>
-<td>Mittweida</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>tv</td>
-<td>11</td>
-<td>Mittweida</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>praktischen</td>
-<td>11</td>
-<td>Mittweida</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>campusfestival</td>
-<td>10</td>
-<td>Mittweida</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>fernsehstudio</td>
-<td>10</td>
-<td>Mittweida</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">10</td>
-<td>it</td>
-<td>20</td>
-<td>OMM</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">11</td>
-<td>programmieren</td>
-<td>13</td>
-<td>OMM</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">12</td>
-<td>spezialisieren</td>
-<td>12</td>
-<td>OMM</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">13</td>
-<td>informatik</td>
-<td>10</td>
-<td>OMM</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14</td>
-<td>perfekt</td>
-<td>9</td>
-<td>OMM</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">15</td>
-<td>wahl</td>
-<td>8</td>
-<td>OMM</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">16</td>
-<td>mischung</td>
-<td>7</td>
-<td>OMM</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">17</td>
-<td>medienwelt</td>
-<td>7</td>
-<td>OMM</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">18</td>
-<td>breit</td>
-<td>7</td>
-<td>OMM</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">19</td>
-<td>bemüht</td>
-<td>7</td>
-<td>OMM</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">20</td>
-<td>unterricht</td>
-<td>28</td>
-<td>Macromedia</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">21</td>
-<td>unternehmen</td>
-<td>20</td>
-<td>Macromedia</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">22</td>
-<td>hilfsbereit</td>
-<td>18</td>
-<td>Macromedia</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">23</td>
-<td>fächer</td>
-<td>18</td>
-<td>Macromedia</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">24</td>
-<td>gefühl</td>
-<td>17</td>
-<td>Macromedia</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">25</td>
-<td>corona</td>
-<td>17</td>
-<td>Macromedia</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">26</td>
-<td>bereits</td>
-<td>17</td>
-<td>Macromedia</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">27</td>
-<td>freundlich</td>
-<td>16</td>
-<td>Macromedia</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">28</td>
-<td>wünschen</td>
-<td>16</td>
-<td>Macromedia</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">29</td>
-<td>wurden</td>
-<td>16</td>
-<td>Macromedia</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">30</td>
-<td>schwerpunkt</td>
-<td>19</td>
-<td>DMW</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">31</td>
-<td>breit</td>
-<td>17</td>
-<td>DMW</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">32</td>
-<td>wirtschaft</td>
-<td>16</td>
-<td>DMW</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">33</td>
-<td>profs</td>
-<td>16</td>
-<td>DMW</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">34</td>
-<td>auswahl</td>
-<td>14</td>
-<td>DMW</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">35</td>
-<td>modern</td>
-<td>13</td>
-<td>DMW</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">36</td>
-<td>praxisbezug</td>
-<td>12</td>
-<td>DMW</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">37</td>
-<td>praxissemester</td>
-<td>12</td>
-<td>DMW</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">38</td>
-<td>konzeption</td>
-<td>12</td>
-<td>DMW</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">39</td>
-<td>mw</td>
-<td>12</td>
-<td>DMW</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <div id="cell-3" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Herunterladen der NLTK-Ressourcen</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Herunterladen der NLTK-Ressourcen</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-4" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Zusätzliche Stopwörter definieren</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>additional_stopwords <span class="op">=</span> <span class="bu">set</span>([</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'hochschule'</span>, <span class="st">'uni'</span>, <span class="st">'universität'</span>, <span class="st">'semester'</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'student'</span>, <span class="st">'studieren'</span>, <span class="st">'studierende'</span>, <span class="st">'fach'</span>, <span class="st">'lehrveranstaltung'</span>, <span class="st">'professor'</span>, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dozent'</span>, <span class="st">'viele'</span>, <span class="st">'dabei'</span>, <span class="st">'ab'</span>, <span class="st">'jedoch'</span>, <span class="st">'auch'</span>, <span class="st">'immer'</span>, <span class="st">'während'</span>, <span class="st">'mehr'</span>, </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bisher'</span>, <span class="st">'obwohl'</span>, <span class="st">'zudem'</span>, <span class="st">'hochschule'</span>, <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'semester'</span>, <span class="st">'erfahrungsbericht'</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'weiterlesen'</span>, <span class="st">'dozenten'</span>, <span class="st">'gut'</span>, <span class="st">'viele'</span>, <span class="st">'immer'</span>, <span class="st">'gibt'</span>, <span class="st">'hdm'</span>, </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'macromedia'</span>, <span class="st">'mittweida'</span>, <span class="st">'vorlesungen'</span>,  <span class="st">'aber'</span>, <span class="st">'alle'</span>, <span class="st">'allem'</span>, <span class="st">'allen'</span>, <span class="st">'aller'</span>, <span class="st">'alles'</span>, <span class="st">'als'</span>, <span class="st">'also'</span>, <span class="st">'am'</span>, <span class="st">'an'</span>, <span class="st">'ander'</span>, <span class="st">'andere'</span>, </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'anderem'</span>, <span class="st">'anderen'</span>, <span class="st">'anderer'</span>, <span class="st">'anderes'</span>, <span class="st">'anderm'</span>, <span class="st">'andern'</span>, <span class="st">'anderr'</span>, <span class="st">'anders'</span>, <span class="st">'auch'</span>, </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'auf'</span>, <span class="st">'aus'</span>, <span class="st">'bei'</span>, <span class="st">'bin'</span>, <span class="st">'bis'</span>, <span class="st">'bist'</span>, <span class="st">'da'</span>, <span class="st">'damit'</span>, <span class="st">'dann'</span>, <span class="st">'der'</span>, <span class="st">'den'</span>, <span class="st">'des'</span>, <span class="st">'dem'</span>, </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'die'</span>, <span class="st">'das'</span>, <span class="st">'dass'</span>, <span class="st">'daß'</span>, <span class="st">'derselbe'</span>, <span class="st">'derselben'</span>, <span class="st">'denselben'</span>, <span class="st">'desselben'</span>, <span class="st">'demselben'</span>, </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieselbe'</span>, <span class="st">'dieselben'</span>, <span class="st">'dasselbe'</span>, <span class="st">'dazu'</span>, <span class="st">'dein'</span>, <span class="st">'deine'</span>, <span class="st">'deinem'</span>, <span class="st">'deinen'</span>, <span class="st">'deiner'</span>, </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deines'</span>, <span class="st">'denn'</span>, <span class="st">'derer'</span>, <span class="st">'dessen'</span>, <span class="st">'dich'</span>, <span class="st">'dir'</span>, <span class="st">'du'</span>, <span class="st">'dies'</span>, <span class="st">'diese'</span>, <span class="st">'diesem'</span>, <span class="st">'diesen'</span>, </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieser'</span>, <span class="st">'dieses'</span>, <span class="st">'doch'</span>, <span class="st">'dort'</span>, <span class="st">'durch'</span>, <span class="st">'ein'</span>, <span class="st">'eine'</span>, <span class="st">'einem'</span>, <span class="st">'einen'</span>, <span class="st">'einer'</span>, <span class="st">'eines'</span>, </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'einig'</span>, <span class="st">'einige'</span>, <span class="st">'einigem'</span>, <span class="st">'einigen'</span>, <span class="st">'einiger'</span>, <span class="st">'einiges'</span>, <span class="st">'einmal'</span>, <span class="st">'er'</span>, <span class="st">'ihn'</span>, <span class="st">'ihm'</span>, </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'es'</span>, <span class="st">'etwas'</span>, <span class="st">'euer'</span>, <span class="st">'eure'</span>, <span class="st">'eurem'</span>, <span class="st">'euren'</span>, <span class="st">'eurer'</span>, <span class="st">'eures'</span>, <span class="st">'für'</span>, <span class="st">'gegen'</span>, <span class="st">'gewesen'</span>, </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hab'</span>, <span class="st">'habe'</span>, <span class="st">'haben'</span>, <span class="st">'hat'</span>, <span class="st">'hatte'</span>, <span class="st">'hatten'</span>, <span class="st">'hier'</span>, <span class="st">'hin'</span>, <span class="st">'hinter'</span>, <span class="st">'ich'</span>, <span class="st">'mich'</span>, </span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mir'</span>, <span class="st">'ihr'</span>, <span class="st">'ihre'</span>, <span class="st">'ihrem'</span>, <span class="st">'ihren'</span>, <span class="st">'ihrer'</span>, <span class="st">'ihres'</span>, <span class="st">'euch'</span>, <span class="st">'im'</span>, <span class="st">'in'</span>, <span class="st">'indem'</span>, <span class="st">'ins'</span>, </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ist'</span>, <span class="st">'jede'</span>, <span class="st">'jedem'</span>, <span class="st">'jeden'</span>, <span class="st">'jeder'</span>, <span class="st">'jedes'</span>, <span class="st">'jene'</span>, <span class="st">'jenem'</span>, <span class="st">'jenen'</span>, <span class="st">'jener'</span>, <span class="st">'jenes'</span>, </span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'jetzt'</span>, <span class="st">'kann'</span>, <span class="st">'kein'</span>, <span class="st">'keine'</span>, <span class="st">'keinem'</span>, <span class="st">'keinen'</span>, <span class="st">'keiner'</span>, <span class="st">'keines'</span>, <span class="st">'können'</span>, <span class="st">'könnte'</span>, </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'machen'</span>, <span class="st">'man'</span>, <span class="st">'manche'</span>, <span class="st">'manchem'</span>, <span class="st">'manchen'</span>, <span class="st">'mancher'</span>, <span class="st">'manches'</span>, <span class="st">'mein'</span>, <span class="st">'meine'</span>, </span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'meinem'</span>, <span class="st">'meinen'</span>, <span class="st">'meiner'</span>, <span class="st">'meines'</span>, <span class="st">'mit'</span>, <span class="st">'muss'</span>, <span class="st">'musste'</span>, <span class="st">'nach'</span>, <span class="st">'nicht'</span>, <span class="st">'nichts'</span>, </span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'noch'</span>, <span class="st">'nun'</span>, <span class="st">'nur'</span>, <span class="st">'ob'</span>, <span class="st">'oder'</span>, <span class="st">'ohne'</span>, <span class="st">'sehr'</span>, <span class="st">'sein'</span>, <span class="st">'seine'</span>, <span class="st">'seinem'</span>, <span class="st">'seinen'</span>, </span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'seiner'</span>, <span class="st">'seines'</span>, <span class="st">'selbst'</span>, <span class="st">'sich'</span>, <span class="st">'sie'</span>, <span class="st">'ihnen'</span>, <span class="st">'sind'</span>, <span class="st">'so'</span>, <span class="st">'solche'</span>, <span class="st">'solchem'</span>, </span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'solchen'</span>, <span class="st">'solcher'</span>, <span class="st">'solches'</span>, <span class="st">'soll'</span>, <span class="st">'sollte'</span>, <span class="st">'sondern'</span>, <span class="st">'sonst'</span>, <span class="st">'über'</span>, <span class="st">'um'</span>, <span class="st">'und'</span>, </span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'uns'</span>, <span class="st">'unsere'</span>, <span class="st">'unserem'</span>, <span class="st">'unseren'</span>, <span class="st">'unser'</span>, <span class="st">'unseres'</span>, <span class="st">'unter'</span>, <span class="st">'viel'</span>, <span class="st">'vom'</span>, <span class="st">'von'</span>, </span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vor'</span>, <span class="st">'während'</span>, <span class="st">'war'</span>, <span class="st">'waren'</span>, <span class="st">'warst'</span>, <span class="st">'was'</span>, <span class="st">'weg'</span>, <span class="st">'weil'</span>, <span class="st">'weiter'</span>, <span class="st">'welche'</span>, <span class="st">'welchem'</span>, </span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'welchen'</span>, <span class="st">'welcher'</span>, <span class="st">'welches'</span>, <span class="st">'wenn'</span>, <span class="st">'werde'</span>, <span class="st">'werden'</span>, <span class="st">'wie'</span>, <span class="st">'wieder'</span>, <span class="st">'will'</span>, <span class="st">'wir'</span>, </span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wird'</span>, <span class="st">'wirst'</span>, <span class="st">'wo'</span>, <span class="st">'wollen'</span>, <span class="st">'wollte'</span>, <span class="st">'würde'</span>, <span class="st">'würden'</span>, <span class="st">'zu'</span>, <span class="st">'zum'</span>, <span class="st">'zur'</span>, <span class="st">'zwar'</span>, </span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'zwischen'</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Hinzufügen der neuen Stopwörter</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>additional_stopwords.update([</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wirklich'</span>, <span class="st">'lernt'</span>, <span class="st">'spaß'</span>, <span class="st">'vielen'</span>, <span class="st">'macht'</span>, <span class="st">'professoren'</span>, <span class="st">'erfahrungen'</span>, </span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'schon'</span>, <span class="st">'lehrveranstaltungen'</span>, <span class="st">'interessant'</span>, <span class="st">'wissen'</span>, <span class="st">'studiums'</span>, <span class="st">'verschiedene'</span>, </span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'allerdings'</span>, <span class="st">'zufrieden'</span>, <span class="st">'bereich'</span>, <span class="st">'einfach'</span>, <span class="st">'möglichkeit'</span>, <span class="st">'lernen'</span>, <span class="st">'top'</span>, </span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'theorie'</span>, <span class="st">'bekommt'</span>, <span class="st">'arbeiten'</span>, <span class="st">'teilweise'</span>, <span class="st">'kompetent'</span>, <span class="st">'mal'</span>, <span class="st">'themen'</span>, <span class="st">'zeit'</span>, </span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">'studieninhalte'</span>, <span class="st">'gemacht'</span>, <span class="st">'module'</span>, <span class="st">'oft'</span>, <span class="st">'tolle'</span>, <span class="st">'besonders'</span>, <span class="st">'denen'</span>, <span class="st">'wurde'</span>, </span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'erfahrung'</span>, <span class="st">'dafür'</span>, <span class="st">'management'</span>, <span class="st">'empfehlen'</span>, <span class="st">'konnte'</span>, <span class="st">'meisten'</span>, <span class="st">'ausgestattet'</span>, </span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'außerdem'</span>, <span class="st">'möchte'</span>, <span class="st">'grundlagen'</span>, <span class="st">'eher'</span>, <span class="st">'gerade'</span>, <span class="st">'fragen'</span>, <span class="st">'dadurch'</span>, </span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">'super'</span>, <span class="st">'medien'</span>, <span class="st">'projekte'</span>, <span class="st">'studenten'</span>, <span class="st">'gute'</span>, <span class="st">'inhalte'</span>, <span class="st">'organisation'</span>, </span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">'leider'</span>, <span class="st">'bietet'</span>, <span class="st">'praxis'</span>, <span class="st">'möglichkeiten'</span>, <span class="st">'ausstattung'</span>, <span class="st">'ersten'</span>, <span class="st">'bwl'</span>, </span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">'projekten'</span>, <span class="st">'medienmanagement'</span>, <span class="st">'campus'</span>, <span class="st">'online'</span>, <span class="st">'auslandssemester'</span>, </span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">'grundstudium'</span>, <span class="st">'medienwirtschaft'</span>, <span class="st">'marketing'</span>, <span class="st">'kurse'</span>, <span class="st">'schnell'</span>, <span class="st">'gestaltet'</span>, </span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">'kommt'</span>, <span class="st">'technik'</span>, <span class="st">'veranstaltungen'</span>, <span class="st">'sagen'</span>, <span class="st">'bereichen'</span>, <span class="st">'praxisnah'</span>, </span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wenig'</span>, <span class="st">'besser'</span>, <span class="st">'neben'</span>, <span class="st">'semestern'</span>, <span class="st">'später'</span>, <span class="st">'ganz'</span>, <span class="st">'studierenden'</span>, </span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'berufsleben'</span>, <span class="st">'vermittelt'</span>, <span class="st">'natürlich'</span>, <span class="st">'direkt'</span>, <span class="st">'erst'</span>, <span class="st">'finde'</span>, <span class="st">'geht'</span>, </span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">'praktische'</span>, <span class="st">'kommen'</span>, <span class="st">'medienbranche'</span>, <span class="st">'richtung'</span>, <span class="st">'gehen'</span>, <span class="st">'bereiche'</span>, <span class="st">'wer'</span>, <span class="st">'stets'</span>,</span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">'fast'</span>, <span class="st">'bereit'</span>, <span class="st">'sammeln'</span>, <span class="st">'große'</span>, <span class="st">'lässt'</span>, <span class="st">'richtig'</span>, <span class="st">'richtige'</span>, <span class="st">'genau'</span>, <span class="st">'neue'</span>, <span class="st">'bringen'</span>,</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">'leben'</span>, <span class="st">'wählen'</span>, <span class="st">'etc'</span>, <span class="st">'erhält'</span>, <span class="st">'gab'</span>, <span class="st">'möglich'</span>, <span class="st">'bekommen'</span>, <span class="st">'hauptstudium'</span>,</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">'eigenen'</span>, <span class="st">'einblick'</span>, <span class="st">'fühlt'</span>, <span class="st">'vertiefung'</span>, <span class="st">'omm'</span>, <span class="st">'mhmk'</span>, <span class="st">'echt'</span></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Zusätzliche Stopwörter definieren</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>additional_stopwords <span class="op">=</span> <span class="bu">set</span>([</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'hochschule'</span>, <span class="st">'uni'</span>, <span class="st">'universität'</span>, <span class="st">'semester'</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'student'</span>, <span class="st">'studieren'</span>, <span class="st">'studierende'</span>, <span class="st">'fach'</span>, <span class="st">'lehrveranstaltung'</span>, <span class="st">'professor'</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dozent'</span>, <span class="st">'viele'</span>, <span class="st">'dabei'</span>, <span class="st">'ab'</span>, <span class="st">'jedoch'</span>, <span class="st">'auch'</span>, <span class="st">'immer'</span>, <span class="st">'während'</span>, <span class="st">'mehr'</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bisher'</span>, <span class="st">'obwohl'</span>, <span class="st">'zudem'</span>, <span class="st">'hochschule'</span>, <span class="st">'studium'</span>, <span class="st">'studiengang'</span>, <span class="st">'semester'</span>, <span class="st">'erfahrungsbericht'</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'weiterlesen'</span>, <span class="st">'dozenten'</span>, <span class="st">'gut'</span>, <span class="st">'viele'</span>, <span class="st">'immer'</span>, <span class="st">'gibt'</span>, <span class="st">'hdm'</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'macromedia'</span>, <span class="st">'mittweida'</span>, <span class="st">'vorlesungen'</span>,  <span class="st">'aber'</span>, <span class="st">'alle'</span>, <span class="st">'allem'</span>, <span class="st">'allen'</span>, <span class="st">'aller'</span>, <span class="st">'alles'</span>, <span class="st">'als'</span>, <span class="st">'also'</span>, <span class="st">'am'</span>, <span class="st">'an'</span>, <span class="st">'ander'</span>, <span class="st">'andere'</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'anderem'</span>, <span class="st">'anderen'</span>, <span class="st">'anderer'</span>, <span class="st">'anderes'</span>, <span class="st">'anderm'</span>, <span class="st">'andern'</span>, <span class="st">'anderr'</span>, <span class="st">'anders'</span>, <span class="st">'auch'</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'auf'</span>, <span class="st">'aus'</span>, <span class="st">'bei'</span>, <span class="st">'bin'</span>, <span class="st">'bis'</span>, <span class="st">'bist'</span>, <span class="st">'da'</span>, <span class="st">'damit'</span>, <span class="st">'dann'</span>, <span class="st">'der'</span>, <span class="st">'den'</span>, <span class="st">'des'</span>, <span class="st">'dem'</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'die'</span>, <span class="st">'das'</span>, <span class="st">'dass'</span>, <span class="st">'daß'</span>, <span class="st">'derselbe'</span>, <span class="st">'derselben'</span>, <span class="st">'denselben'</span>, <span class="st">'desselben'</span>, <span class="st">'demselben'</span>, </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieselbe'</span>, <span class="st">'dieselben'</span>, <span class="st">'dasselbe'</span>, <span class="st">'dazu'</span>, <span class="st">'dein'</span>, <span class="st">'deine'</span>, <span class="st">'deinem'</span>, <span class="st">'deinen'</span>, <span class="st">'deiner'</span>, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deines'</span>, <span class="st">'denn'</span>, <span class="st">'derer'</span>, <span class="st">'dessen'</span>, <span class="st">'dich'</span>, <span class="st">'dir'</span>, <span class="st">'du'</span>, <span class="st">'dies'</span>, <span class="st">'diese'</span>, <span class="st">'diesem'</span>, <span class="st">'diesen'</span>, </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dieser'</span>, <span class="st">'dieses'</span>, <span class="st">'doch'</span>, <span class="st">'dort'</span>, <span class="st">'durch'</span>, <span class="st">'ein'</span>, <span class="st">'eine'</span>, <span class="st">'einem'</span>, <span class="st">'einen'</span>, <span class="st">'einer'</span>, <span class="st">'eines'</span>, </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'einig'</span>, <span class="st">'einige'</span>, <span class="st">'einigem'</span>, <span class="st">'einigen'</span>, <span class="st">'einiger'</span>, <span class="st">'einiges'</span>, <span class="st">'einmal'</span>, <span class="st">'er'</span>, <span class="st">'ihn'</span>, <span class="st">'ihm'</span>, </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'es'</span>, <span class="st">'etwas'</span>, <span class="st">'euer'</span>, <span class="st">'eure'</span>, <span class="st">'eurem'</span>, <span class="st">'euren'</span>, <span class="st">'eurer'</span>, <span class="st">'eures'</span>, <span class="st">'für'</span>, <span class="st">'gegen'</span>, <span class="st">'gewesen'</span>, </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hab'</span>, <span class="st">'habe'</span>, <span class="st">'haben'</span>, <span class="st">'hat'</span>, <span class="st">'hatte'</span>, <span class="st">'hatten'</span>, <span class="st">'hier'</span>, <span class="st">'hin'</span>, <span class="st">'hinter'</span>, <span class="st">'ich'</span>, <span class="st">'mich'</span>, </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mir'</span>, <span class="st">'ihr'</span>, <span class="st">'ihre'</span>, <span class="st">'ihrem'</span>, <span class="st">'ihren'</span>, <span class="st">'ihrer'</span>, <span class="st">'ihres'</span>, <span class="st">'euch'</span>, <span class="st">'im'</span>, <span class="st">'in'</span>, <span class="st">'indem'</span>, <span class="st">'ins'</span>, </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ist'</span>, <span class="st">'jede'</span>, <span class="st">'jedem'</span>, <span class="st">'jeden'</span>, <span class="st">'jeder'</span>, <span class="st">'jedes'</span>, <span class="st">'jene'</span>, <span class="st">'jenem'</span>, <span class="st">'jenen'</span>, <span class="st">'jener'</span>, <span class="st">'jenes'</span>, </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'jetzt'</span>, <span class="st">'kann'</span>, <span class="st">'kein'</span>, <span class="st">'keine'</span>, <span class="st">'keinem'</span>, <span class="st">'keinen'</span>, <span class="st">'keiner'</span>, <span class="st">'keines'</span>, <span class="st">'können'</span>, <span class="st">'könnte'</span>, </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'machen'</span>, <span class="st">'man'</span>, <span class="st">'manche'</span>, <span class="st">'manchem'</span>, <span class="st">'manchen'</span>, <span class="st">'mancher'</span>, <span class="st">'manches'</span>, <span class="st">'mein'</span>, <span class="st">'meine'</span>, </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'meinem'</span>, <span class="st">'meinen'</span>, <span class="st">'meiner'</span>, <span class="st">'meines'</span>, <span class="st">'mit'</span>, <span class="st">'muss'</span>, <span class="st">'musste'</span>, <span class="st">'nach'</span>, <span class="st">'nicht'</span>, <span class="st">'nichts'</span>, </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'noch'</span>, <span class="st">'nun'</span>, <span class="st">'nur'</span>, <span class="st">'ob'</span>, <span class="st">'oder'</span>, <span class="st">'ohne'</span>, <span class="st">'sehr'</span>, <span class="st">'sein'</span>, <span class="st">'seine'</span>, <span class="st">'seinem'</span>, <span class="st">'seinen'</span>, </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'seiner'</span>, <span class="st">'seines'</span>, <span class="st">'selbst'</span>, <span class="st">'sich'</span>, <span class="st">'sie'</span>, <span class="st">'ihnen'</span>, <span class="st">'sind'</span>, <span class="st">'so'</span>, <span class="st">'solche'</span>, <span class="st">'solchem'</span>, </span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'solchen'</span>, <span class="st">'solcher'</span>, <span class="st">'solches'</span>, <span class="st">'soll'</span>, <span class="st">'sollte'</span>, <span class="st">'sondern'</span>, <span class="st">'sonst'</span>, <span class="st">'über'</span>, <span class="st">'um'</span>, <span class="st">'und'</span>, </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'uns'</span>, <span class="st">'unsere'</span>, <span class="st">'unserem'</span>, <span class="st">'unseren'</span>, <span class="st">'unser'</span>, <span class="st">'unseres'</span>, <span class="st">'unter'</span>, <span class="st">'viel'</span>, <span class="st">'vom'</span>, <span class="st">'von'</span>, </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'vor'</span>, <span class="st">'während'</span>, <span class="st">'war'</span>, <span class="st">'waren'</span>, <span class="st">'warst'</span>, <span class="st">'was'</span>, <span class="st">'weg'</span>, <span class="st">'weil'</span>, <span class="st">'weiter'</span>, <span class="st">'welche'</span>, <span class="st">'welchem'</span>, </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'welchen'</span>, <span class="st">'welcher'</span>, <span class="st">'welches'</span>, <span class="st">'wenn'</span>, <span class="st">'werde'</span>, <span class="st">'werden'</span>, <span class="st">'wie'</span>, <span class="st">'wieder'</span>, <span class="st">'will'</span>, <span class="st">'wir'</span>, </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wird'</span>, <span class="st">'wirst'</span>, <span class="st">'wo'</span>, <span class="st">'wollen'</span>, <span class="st">'wollte'</span>, <span class="st">'würde'</span>, <span class="st">'würden'</span>, <span class="st">'zu'</span>, <span class="st">'zum'</span>, <span class="st">'zur'</span>, <span class="st">'zwar'</span>, </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'zwischen'</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Hinzufügen der neuen Stopwörter</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>additional_stopwords.update([</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wirklich'</span>, <span class="st">'lernt'</span>, <span class="st">'spaß'</span>, <span class="st">'vielen'</span>, <span class="st">'macht'</span>, <span class="st">'professoren'</span>, <span class="st">'erfahrungen'</span>, </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'schon'</span>, <span class="st">'lehrveranstaltungen'</span>, <span class="st">'interessant'</span>, <span class="st">'wissen'</span>, <span class="st">'studiums'</span>, <span class="st">'verschiedene'</span>, </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'allerdings'</span>, <span class="st">'zufrieden'</span>, <span class="st">'bereich'</span>, <span class="st">'einfach'</span>, <span class="st">'möglichkeit'</span>, <span class="st">'lernen'</span>, <span class="st">'top'</span>, </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'theorie'</span>, <span class="st">'bekommt'</span>, <span class="st">'arbeiten'</span>, <span class="st">'teilweise'</span>, <span class="st">'kompetent'</span>, <span class="st">'mal'</span>, <span class="st">'themen'</span>, <span class="st">'zeit'</span>, </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">'studieninhalte'</span>, <span class="st">'gemacht'</span>, <span class="st">'module'</span>, <span class="st">'oft'</span>, <span class="st">'tolle'</span>, <span class="st">'besonders'</span>, <span class="st">'denen'</span>, <span class="st">'wurde'</span>, </span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'erfahrung'</span>, <span class="st">'dafür'</span>, <span class="st">'management'</span>, <span class="st">'empfehlen'</span>, <span class="st">'konnte'</span>, <span class="st">'meisten'</span>, <span class="st">'ausgestattet'</span>, </span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'außerdem'</span>, <span class="st">'möchte'</span>, <span class="st">'grundlagen'</span>, <span class="st">'eher'</span>, <span class="st">'gerade'</span>, <span class="st">'fragen'</span>, <span class="st">'dadurch'</span>, </span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">'super'</span>, <span class="st">'medien'</span>, <span class="st">'projekte'</span>, <span class="st">'studenten'</span>, <span class="st">'gute'</span>, <span class="st">'inhalte'</span>, <span class="st">'organisation'</span>, </span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">'leider'</span>, <span class="st">'bietet'</span>, <span class="st">'praxis'</span>, <span class="st">'möglichkeiten'</span>, <span class="st">'ausstattung'</span>, <span class="st">'ersten'</span>, <span class="st">'bwl'</span>, </span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">'projekten'</span>, <span class="st">'medienmanagement'</span>, <span class="st">'campus'</span>, <span class="st">'online'</span>, <span class="st">'auslandssemester'</span>, </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">'grundstudium'</span>, <span class="st">'medienwirtschaft'</span>, <span class="st">'marketing'</span>, <span class="st">'kurse'</span>, <span class="st">'schnell'</span>, <span class="st">'gestaltet'</span>, </span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">'kommt'</span>, <span class="st">'technik'</span>, <span class="st">'veranstaltungen'</span>, <span class="st">'sagen'</span>, <span class="st">'bereichen'</span>, <span class="st">'praxisnah'</span>, </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">'wenig'</span>, <span class="st">'besser'</span>, <span class="st">'neben'</span>, <span class="st">'semestern'</span>, <span class="st">'später'</span>, <span class="st">'ganz'</span>, <span class="st">'studierenden'</span>, </span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'berufsleben'</span>, <span class="st">'vermittelt'</span>, <span class="st">'natürlich'</span>, <span class="st">'direkt'</span>, <span class="st">'erst'</span>, <span class="st">'finde'</span>, <span class="st">'geht'</span>, </span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">'praktische'</span>, <span class="st">'kommen'</span>, <span class="st">'medienbranche'</span>, <span class="st">'richtung'</span>, <span class="st">'gehen'</span>, <span class="st">'bereiche'</span>, <span class="st">'wer'</span>, <span class="st">'stets'</span>,</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">'fast'</span>, <span class="st">'bereit'</span>, <span class="st">'sammeln'</span>, <span class="st">'große'</span>, <span class="st">'lässt'</span>, <span class="st">'richtig'</span>, <span class="st">'richtige'</span>, <span class="st">'genau'</span>, <span class="st">'neue'</span>, <span class="st">'bringen'</span>,</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">'leben'</span>, <span class="st">'wählen'</span>, <span class="st">'etc'</span>, <span class="st">'erhält'</span>, <span class="st">'gab'</span>, <span class="st">'möglich'</span>, <span class="st">'bekommen'</span>, <span class="st">'hauptstudium'</span>,</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">'eigenen'</span>, <span class="st">'einblick'</span>, <span class="st">'fühlt'</span>, <span class="st">'vertiefung'</span>, <span class="st">'omm'</span>, <span class="st">'mhmk'</span>, <span class="st">'echt'</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-5" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Textbereinigungsfunktion</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_text(text):</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> word_tokenize(text.lower())</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stopwords.words(<span class="st">'german'</span>)]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> additional_stopwords]</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word.isalnum()]</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Textbereinigungsfunktion</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_text(text):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> word_tokenize(text.lower())</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stopwords.words(<span class="st">'german'</span>)]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> additional_stopwords]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> tokens <span class="cf">if</span> word.isalnum()]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Generierung von Wortwolken</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_wordcloud(text, title):</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate(text)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Generierung von Wortwolken</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_wordcloud(text, title):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate(text)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    plt.imshow(wordcloud, interpolation<span class="op">=</span><span class="st">'bilinear'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-7" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade die CSV-Dateien</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>mittweida_df <span class="op">=</span> pd.read_csv(<span class="st">'medienmanagement_mittweida_reviews.csv'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>hdm_omm_df <span class="op">=</span> pd.read_csv(<span class="st">'online_medien_management_hdm_reviews.csv'</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>macromedia_df <span class="op">=</span> pd.read_csv(<span class="st">'medien_und_kommunikationsmanagement_macromedia_hochschule_reviews.csv'</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>hdm_mw_df <span class="op">=</span> pd.read_csv(<span class="st">'digital_und_medienwirtschaft_hdm_reviews.csv'</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Füge eine Spalte für den Studiengang hinzu</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>mittweida_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Mittweida'</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>hdm_omm_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'OMM'</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>macromedia_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Macromedia'</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>hdm_mw_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'DMW'</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Kombiniere die DataFrames für die Analyse</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>all_reviews_df <span class="op">=</span> pd.concat([mittweida_df, hdm_omm_df, macromedia_df, hdm_mw_df], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Bereinige die Texte in den Reviews</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'cleaned_review'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'Review'</span>].<span class="bu">apply</span>(clean_text)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generiere eine Wortwolke pro Studiengang</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> studiengang <span class="kw">in</span> all_reviews_df[<span class="st">'Studiengang'</span>].unique():</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    studiengang_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang][<span class="st">'cleaned_review'</span>])</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    generate_wordcloud(studiengang_reviews, <span class="ss">f'</span><span class="sc">{</span>studiengang<span class="sc">}</span><span class="ss"> - Häufigste Begriffe nach Bereinigung'</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Speichere die bereinigten Daten in einer CSV-Datei</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>all_reviews_df.to_csv(<span class="st">'all_reviews_cleaned_v2.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Analyse abgeschlossen und Ergebnisse gespeichert."</span>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Extraktion der häufigsten Begriffe</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_top_terms(text, top_n<span class="op">=</span><span class="dv">10</span>):</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> word_tokenize(text)</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">=</span> Counter(tokens)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    most_common <span class="op">=</span> counter.most_common(top_n)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(most_common, columns<span class="op">=</span>[<span class="st">'Begriff'</span>, <span class="st">'Häufigkeit'</span>])</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Erstelle eine DataFrame für die wichtigsten Begriffe pro Studiengang</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>top_terms_per_studiengang <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> studiengang <span class="kw">in</span> all_reviews_df[<span class="st">'Studiengang'</span>].unique():</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    studiengang_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang][<span class="st">'cleaned_review'</span>])</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    top_terms <span class="op">=</span> get_top_terms(studiengang_reviews, top_n<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    top_terms[<span class="st">'Studiengang'</span>] <span class="op">=</span> studiengang</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    top_terms_per_studiengang <span class="op">=</span> pd.concat([top_terms_per_studiengang, top_terms], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeige die Tabelle als pandas DataFrame an</span></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>top_terms_per_studiengang</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade die CSV-Dateien</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mittweida_df <span class="op">=</span> pd.read_csv(<span class="st">'medienmanagement_mittweida_reviews.csv'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>hdm_omm_df <span class="op">=</span> pd.read_csv(<span class="st">'online_medien_management_hdm_reviews.csv'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>macromedia_df <span class="op">=</span> pd.read_csv(<span class="st">'medien_und_kommunikationsmanagement_macromedia_hochschule_reviews.csv'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>hdm_mw_df <span class="op">=</span> pd.read_csv(<span class="st">'digital_und_medienwirtschaft_hdm_reviews.csv'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Füge eine Spalte für den Studiengang hinzu</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>mittweida_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Mittweida'</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>hdm_omm_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'OMM'</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>macromedia_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'Macromedia'</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>hdm_mw_df[<span class="st">'Studiengang'</span>] <span class="op">=</span> <span class="st">'DMW'</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Kombiniere die DataFrames für die Analyse</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>all_reviews_df <span class="op">=</span> pd.concat([mittweida_df, hdm_omm_df, macromedia_df, hdm_mw_df], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Bereinige die Texte in den Reviews</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>all_reviews_df[<span class="st">'cleaned_review'</span>] <span class="op">=</span> all_reviews_df[<span class="st">'Review'</span>].<span class="bu">apply</span>(clean_text)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generiere eine Wortwolke pro Studiengang</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> studiengang <span class="kw">in</span> all_reviews_df[<span class="st">'Studiengang'</span>].unique():</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    studiengang_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang][<span class="st">'cleaned_review'</span>])</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    generate_wordcloud(studiengang_reviews, <span class="ss">f'</span><span class="sc">{</span>studiengang<span class="sc">}</span><span class="ss"> - Häufigste Begriffe nach Bereinigung'</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Speichere die bereinigten Daten in einer CSV-Datei</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>all_reviews_df.to_csv(<span class="st">'all_reviews_cleaned_v2.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Analyse abgeschlossen und Ergebnisse gespeichert."</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Funktion zur Extraktion der häufigsten Begriffe</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_top_terms(text, top_n<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> word_tokenize(text)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">=</span> Counter(tokens)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    most_common <span class="op">=</span> counter.most_common(top_n)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(most_common, columns<span class="op">=</span>[<span class="st">'Begriff'</span>, <span class="st">'Häufigkeit'</span>])</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Erstelle eine DataFrame für die wichtigsten Begriffe pro Studiengang</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>top_terms_per_studiengang <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> studiengang <span class="kw">in</span> all_reviews_df[<span class="st">'Studiengang'</span>].unique():</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    studiengang_reviews <span class="op">=</span> <span class="st">' '</span>.join(all_reviews_df[all_reviews_df[<span class="st">'Studiengang'</span>] <span class="op">==</span> studiengang][<span class="st">'cleaned_review'</span>])</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    top_terms <span class="op">=</span> get_top_terms(studiengang_reviews, top_n<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    top_terms[<span class="st">'Studiengang'</span>] <span class="op">=</span> studiengang</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    top_terms_per_studiengang <span class="op">=</span> pd.concat([top_terms_per_studiengang, top_terms], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeige die Tabelle als pandas DataFrame an</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>top_terms_per_studiengang</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
